@@ -1,13 +1,13 @@
 {
-    "name": "geoviz",
+    "name": "softwater/geoviz",
     "type": "drupal-module",
-    "description": "My Awesome Module",
+    "description": "A module to collect useful pages and tools for mapping and data visualization & analysis",
     "keywords": [
     ],
-    "homepage": "https://www.drupal.org/project/geoviz",
+    "homepage": "https://gitlab.com/softwater/geoviz.git",
     "minimum-stability": "dev",
     "support": {
-        "issues": "https://www.drupal.org/project/issues/geoviz",
-        "source": "http://cgit.drupalcode.org/geoviz",
-    },
+        "issues": "https://gitlab.com/softwater/geoviz/-/issues",
+        "source": "https://gitlab.com/softwater/geoviz.git"
+    }
 }

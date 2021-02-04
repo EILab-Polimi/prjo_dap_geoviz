@@ -1,0 +1,7 @@
+geoviz.dashboard:
+  path: '/geoviz_test_dashboard'
+  defaults:
+    _controller: '\Drupal\geoviz\Controller\Dashboard::dashboard'
+    _title: 'Dashboard'
+  requirements:
+    _permission: 'access content'

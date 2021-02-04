@@ -1,0 +1,12 @@
+openlayers:
+  version: 6.x
+  js:
+    /libraries/openlayers/build/ol.js: {}
+  css:
+    theme:
+      /libraries/openlayers/build/ol.css: {}
+
+dashboard:
+  version: 1.x
+  js:
+    js/custom/map.js: {}
