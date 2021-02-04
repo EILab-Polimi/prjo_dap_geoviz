@@ -1,4 +1,14 @@
 
+openlayers:
+  version: 6.x
+  js:
+    # /libraries/ol6/ol.js: {}
+    /libraries/openlayers/build/ol.js: {}
+  css:
+    theme:
+      # /libraries/ol6/ol.css: {}
+      /libraries/openlayers/build/ol.css: {}
+
 ol-layerswitcher:
   version: 1.x
   remote: https://github.com/ilpise/ol-layerswitcher
@@ -9,10 +19,10 @@ ol-layerswitcher:
   css:
     theme:
       /libraries/ol-layerswitcher/src/ol-layerswitcher.css: {}
-  dependencies:
-    - openlayers/openlayers
-    # - core/jquery
-    # - core/drupal
+  # dependencies:
+  #   - openlayers/openlayers
+  #   # - core/jquery
+  #   # - core/drupal
 
 ol-geocoder:
   version: 1.x
@@ -24,8 +34,8 @@ ol-geocoder:
   css:
     theme:
       /libraries/ol-geocoder/dist/ol-geocoder.css: {}
-  dependencies:
-    - openlayers/openlayers
+  # dependencies:
+  #   - openlayers/openlayers
 
 
 dashboard:
