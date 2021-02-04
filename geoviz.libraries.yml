@@ -6,6 +6,28 @@ openlayers:
     theme:
       /libraries/openlayers/build/ol.css: {}
 
+ol-layerswitcher:
+  version: 1.x
+  remote: https://github.com/ilpise/ol-layerswitcher
+  license:
+    name: MIT Licence
+  js:
+    /libraries/ol-layerswitcher/dist/ol-layerswitcher.js: {}
+  css:
+    theme:
+      /libraries/ol-layerswitcher/src/ol-layerswitcher.css: {}
+
+ol-geocoder:
+  version: 1.x
+  remote: https://github.com/ilpise/ol-geocoder
+  license:
+    name: MIT Licence
+  js:
+    /libraries/ol-geocoder/dist/ol-geocoder.js: {}
+  css:
+    theme:
+      /libraries/ol-geocoder/dist/ol-geocoder.css: {}
+
 dashboard:
   version: 1.x
   js:
