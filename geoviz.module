@@ -33,3 +33,43 @@ function geoviz_theme() {
     ],
   ];
 }
+
+/**
+ * Implements hook_requirements().
+ */
+
+function geoviz_requirements($phase) {
+  $requirements = array();
+  if ($phase != 'runtime') {
+    return $requirements;
+  }
+  $library = Drupal::service('library.discovery')
+    ->getLibraryByName('geoviz', 'ol-layerswitcher');
+
+  $requirements['geoviz'] = array(
+    'title' => Drupal::translation()->translate('GEOVIZ openlayers plugin libraries')
+  );
+
+  if (file_exists($library['js'][0]['data'])) {
+    $requirements['geoviz']['value'] = Drupal::translation()
+      ->translate('Layer switcher @version library installed at @path.', array(
+        '@version' => $library['version'],
+        '@path' => $library['js'][0]['data'],
+      ));
+    $requirements['geoviz']['severity'] = REQUIREMENT_OK;
+  }
+  else {
+    $requirements['geoviz']['value'] = Drupal::translation()
+      ->translate('Layer switcher @version library not found at @path. Please !download it to @directory.',
+        array(
+          '@version' => $library['version'],
+          '@path' => $library['js'][0]['data'],
+          '@directory' => dirname($library['js'][0]['data']),
+          '!download' => Drupal::l('download', Drupal\Core\Url::fromUri($library['remote'])),
+        )
+      );
+    $requirements['geoviz']['severity'] = REQUIREMENT_ERROR;
+  }
+
+  return $requirements;
+}
