@@ -13,6 +13,41 @@
         var mapCenter = [952345.995,5770164.701];
         var mapZoom = 8;
 
+        var url = 'http://wms.pcn.minambiente.it/ogc?map=/ms_ogc/WMS_v1.3/Vettoriali/Progetto_Antincendi_Boschivi_PNZ.map';
+        // TEST WMS GetCapabilities
+        $.ajax({
+            type: 'GET',
+            // url: qgsUrl + '?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetCapabilities&map=' + qgsMap,
+            url: url + '&SERVICE=WMS&VERSION=1.3.0&REQUEST=GetCapabilities',
+            // dataType: 'image/png',
+            // async: true,
+            success: parseGetCapabilities,
+            // complete: setGCjsonObject,
+        });
+
+        // Success function callback for the ajax call
+        function parseGetCapabilities (data, textStatus, jqXHR) {
+
+          console.log(data);
+          console.log(jqXHR.responseText);
+          var capability = jqXHR.responseText;
+
+
+          // Using OL parser
+          // var parser = new ol.format.WMSCapabilities();
+          // var result = parser.read(data);
+          // var capability = result.Capability;
+
+          // console.log(capability);
+          //
+          var jsonCap = new WMSCapabilities().parse(capability);
+          console.log(jsonCap);
+
+          // Get the extent form the getCapability result the EPSG:3857 bbox
+          // console.log(capability.Layer.BoundingBox);
+        }
+
+
         /* Base maps */
     		var osm = new ol.layer.Tile({
     					source: new ol.source.OSM({
