@@ -34,6 +34,7 @@ class Dashboard extends ControllerBase {
       '#attached' => [
         'library' => [
           'geoviz/openlayers',
+          'geoviz/wms-capabilities',
           // 'openalyers/openlayers',
           'geoviz/ol-layerswitcher',
           'geoviz/ol-geocoder',

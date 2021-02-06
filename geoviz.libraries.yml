@@ -9,6 +9,11 @@ openlayers:
       # /libraries/ol6/ol.css: {}
       /libraries/openlayers/build/ol.css: {}
 
+wms-capabilities:
+  version: 0.4.1
+  js:
+    /libraries/wms-capabilities/dist/wms-capabilities.js: {}
+
 ol-layerswitcher:
   version: 1.x
   remote: https://github.com/ilpise/ol-layerswitcher
