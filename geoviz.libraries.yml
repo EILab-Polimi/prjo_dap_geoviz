@@ -9,10 +9,38 @@ openlayers:
       # /libraries/ol6/ol.css: {}
       /libraries/openlayers/build/ol.css: {}
 
-wms-capabilities:
-  version: 0.4.1
+# wms-capabilities is already implemented in ol
+# wms-capabilities:
+#   version: 0.4.1
+#   js:
+#     /libraries/wms-capabilities/dist/wms-capabilities.js: {}
+
+
+# geoviz.customcontrol:
+#     version: VERSION
+#     js:
+#       js/control/geoviz.customcontrol.namespace.js: {}
+
+
+# This is used to allow to call the ol.control.LayerSwitcher if we use the Control
+# from openlayersd8 module
+# It is not used in the Dashboard implementation
+ol.control.LayerSwitcher:
+  version: 1.x
+  remote: https://github.com/ilpise/ol-layerswitcher
+  license:
+    name: MIT Licence
   js:
-    /libraries/wms-capabilities/dist/wms-capabilities.js: {}
+    /libraries/ol-layerswitcher/dist/ol-layerswitcher.js: {}
+  css:
+    theme:
+      /libraries/ol-layerswitcher/src/ol-layerswitcher.css: {}
+  # dependencies:
+  #   - openlayers/openlayers
+  #   # - core/jquery
+  #   # - core/drupal
+
+
 
 ol-layerswitcher:
   version: 1.x
