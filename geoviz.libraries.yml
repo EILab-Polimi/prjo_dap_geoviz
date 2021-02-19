@@ -25,16 +25,16 @@ openlayers:
 # This is used to allow to call the ol.control.LayerSwitcher if we use the Control
 # from openlayersd8 module
 # It is not used in the Dashboard implementation
-ol.control.LayerSwitcher:
-  version: 1.x
-  remote: https://github.com/ilpise/ol-layerswitcher
-  license:
-    name: MIT Licence
-  js:
-    /libraries/ol-layerswitcher/dist/ol-layerswitcher.js: {}
-  css:
-    theme:
-      /libraries/ol-layerswitcher/src/ol-layerswitcher.css: {}
+# ol.control.LayerSwitcher:
+#   version: 1.x
+#   remote: https://github.com/ilpise/ol-layerswitcher
+#   license:
+#     name: MIT Licence
+#   js:
+#     /libraries/ol-layerswitcher/dist/ol-layerswitcher.js: {}
+#   css:
+#     theme:
+#       /libraries/ol-layerswitcher/src/ol-layerswitcher.css: {}
   # dependencies:
   #   - openlayers/openlayers
   #   # - core/jquery
