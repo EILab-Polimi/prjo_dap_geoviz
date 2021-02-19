@@ -5,3 +5,12 @@ geoviz.dashboard:
     _title: 'Dashboard'
   requirements:
     _permission: 'access content'
+
+
+geoviz.graph:
+  path: '/geoviz_test_graph'
+  defaults:
+    _controller: '\Drupal\geoviz\Controller\Dashboard::graph'
+    _title: 'Plotly integration'
+  requirements:
+    _permission: 'access content'

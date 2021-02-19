@@ -17,6 +17,25 @@ class Dashboard extends ControllerBase {
   /**
    * Returns a render-able array for a test page.
    */
+  public function graph() {
+
+    $build = [
+      // '#theme' => 'message_water_request',
+      '#theme' => 'wp4_graph',
+      '#attached' => [
+        'library' => [
+          'geoviz/plotlyjs',
+          'geoviz/graph'
+        ]
+      ],
+    ];
+    return $build;
+
+  }
+
+  /**
+   * Returns a render-able array for a test page.
+   */
   public function dashboard() {
 
     // \Drupal::service('entity_field.manager')->getFieldDefinitions(ENTITY_TYPE_ID, BUNDLE_ID);

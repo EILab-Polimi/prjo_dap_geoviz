@@ -9,6 +9,18 @@ openlayers:
       # /libraries/ol6/ol.css: {}
       /libraries/openlayers/build/ol.css: {}
 
+
+plotlyjs:
+  version: 1.58.4
+  js:
+    # /libraries/ol6/ol.js: {}
+    /libraries/plotlyjs/plotly-latest.min.js: {}
+
+graph:
+  version: 1.x
+  js:
+    js/custom/graph.js: {}
+
 # wms-capabilities is already implemented in ol
 # wms-capabilities:
 #   version: 0.4.1

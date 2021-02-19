@@ -33,7 +33,11 @@ function geoviz_theme() {
     ],
     'wp4_map' => [
       'variables' => [],
+    ],
+    'wp4_graph' => [
+      'variables' => [],
     ]
+
   ];
 }
 
