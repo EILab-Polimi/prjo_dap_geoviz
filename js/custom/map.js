@@ -90,7 +90,8 @@
           // jsonCap.Service
           // jsonCap.version
           // $.each( jsonCap.Capability.Layer, jsonTreeString);
-          $.each( jsonCap.Capability.Layer.Layer, jsonTreeString);
+          $.each( jsonCap.Capability.Layer.Layer.reverse(), jsonTreeString);
+
           // Get the extent form the getCapability result the EPSG:3857 bbox
           // console.log(capability.Layer.BoundingBox);
         }
@@ -103,7 +104,7 @@
           if (val.Layer instanceof Array) {
             $.each(val.Layer, jsonTreeString);
           } else {
-            if(key <= 6){
+            if(key > 3){
               // olMap.addLayer(
 
               var t = new ol.layer.Image({
