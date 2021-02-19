@@ -3,7 +3,3 @@ type: module
 description: 'A module to collect useful pages and tools for mapping and data visualization & analysis'
 core: 8.x
 package: 'Custom'
-
-dependencies:
-  - drupal:geofield
-  - drupal:openlayers
