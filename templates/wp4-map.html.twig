@@ -1,0 +1,114 @@
+
+<div class="row">
+  <!-- MAP -->
+  <div class="col-9">
+    <div id="map" class="col-md-12" style="min-width: 150px; height: 432px"></div>
+  </div>
+
+  <!-- Tabs controllers -->
+  <div class="col-3">
+    <h3><?php print($title) ?></h3>
+
+    <div id="exTab2" >
+      <ul class="nav nav-tabs">
+        <li class="nav-item">
+          <a class="nav-link active" data-toggle="tab" href="#layers-tab" role="tab" aria-controls="home" aria-expanded="true"><i class="fas fa-layer-group"></i> Layers</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#tools-tab" role="tab" aria-controls="profile" aria-expandend="false"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> Selezione</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#info-tab" role="tab" aria-controls="contact" aria-expanded="false"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> Info</a>
+        </li>
+      </ul>
+
+        <div class="tab-content ">
+
+          <div class="tab-pane active" id="layers-tab">
+
+            <!-- Add layer switcher widget -->
+            <div id="layers" class="layer-switcher"></div>
+
+          </div>
+
+          <div class="tab-pane" id="tools-tab">
+
+            <h4>Cerca</h4>
+            <!-- Add nominatim ol-geocoder  -->
+            <div class="row">
+              <div class="col-md-12" style="margin-bottom: 10px">
+
+                <!-- <div id="gvz_search"></div> -->
+                <div id="siric_radio" class="form-group">
+                  <div class="row">
+                    <div class="col-md-4"><label style="height: 34px; padding: 6px 12px;">Tipo di area</label></div>
+                    <div class="col-8">
+                      <div class="radio">
+                        <label><input type="radio" name="optradio" value="rl_aree_todo">Aree territoriali ottimali</label>
+                      </div>
+                      <div class="radio">
+                        <label><input type="radio" name="optradio" value="rl_comuni_selezione">Comuni</label>
+                      </div>
+                      <div class="radio">
+                        <label><input type="radio" name="optradio" value="bacini_afferenti" >Bacini Afferenti</label>
+                      </div>
+                      <div class="radio">
+                        <label><input type="radio" name="optradio" value="sfioratori">Sfioratori</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Area select box -->
+                <div class="form-group">
+                  <div class="row">
+                    <div class="col-3"><label for="area-select" style="height: 34px; padding: 6px 12px;">Area:</label></div>
+                    <div class="col-8"><select class="form-control" id="area-select"></select></div>
+                  </div>
+                </div>
+
+                <div class="panel-group" id="accordion">
+                  <div class="panel panel-default">
+                    <div class="panel-heading">
+                      <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne"><!-- <span class="glyphicon glyphicon-folder-close">
+                        </span>--> Problematiche</a>
+                      </h4>
+                    </div>
+                    <div id="collapseOne" class="panel-collapse collapse in" style="max-height: 40vh; overflow: auto;">
+                    </div>
+                  </div>
+                  <div class="panel panel-default">
+                    <div class="panel-heading">
+                      <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo"><!-- <span class="glyphicon glyphicon-file">
+                        </span>--> Interventi Strutturali</a>
+                      </h4>
+                    </div>
+                    <div id="collapseTwo" class="panel-collapse collapse" style="max-height: 40vh; overflow: auto;">
+                    </div>
+                  </div>
+                  <div class="panel panel-default">
+                    <div class="panel-heading">
+                      <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree"><!-- <span class="glyphicon glyphicon-heart">
+                        </span>--> Interventi non Strutturali</a>
+                      </h4>
+                    </div>
+                    <div id="collapseThree" class="panel-collapse collapse" style="max-height: 40vh; overflow: auto;">
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+            <!-- Add nominatim_extended ol-geocoder  -->
+
+          </div>
+          <div class="tab-pane" id="info-tab">
+            <div id="info"><p>Clic sugli elementi di un layer per visualizzare le informazioni disponibili</p></div>
+          </div>
+        </div>
+    </div>
+  </div>
+</div>

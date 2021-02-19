@@ -20,23 +20,23 @@ class Dashboard extends ControllerBase {
   public function dashboard() {
 
     // \Drupal::service('entity_field.manager')->getFieldDefinitions(ENTITY_TYPE_ID, BUNDLE_ID);
-    $info = \Drupal::service('entity_field.manager')->getFieldDefinitions('openlayers_control', 'openlayers_control');
-
-    // dpm($info);
-    if(!array_key_exists('options', $info)) { // NON esiste la key se la rimuoviamo dalla entity Openlayers_Control.php
-      // dpm($info);
-    }
-
-    // https://techblog.stefan-korn.de/content/remove-base-field-custom-content-entity-drupal-8
-    // Questo servizio (getFieldStorageDefinition) ricava se il campo è definito a livello di entity
-    // E' possibile che il campo sia definito ma non presente nel db
-    // Per poterlo rimuovere (uninstallFieldStorageDefinition) è necessario che il campo esista a database
-    $update_manager = \Drupal::service('entity.definition_update_manager');
-    // $definition = $update_manager->getFieldStorageDefinition('machine_name', 'openlayers_control');
-    $definition = $update_manager->getFieldStorageDefinition('options_test', 'openlayers_control');
+    // $info = \Drupal::service('entity_field.manager')->getFieldDefinitions('openlayers_control', 'openlayers_control');
+    //
+    // // dpm($info);
+    // if(!array_key_exists('options', $info)) { // NON esiste la key se la rimuoviamo dalla entity Openlayers_Control.php
+    //   // dpm($info);
+    // }
+    //
+    // // https://techblog.stefan-korn.de/content/remove-base-field-custom-content-entity-drupal-8
+    // // Questo servizio (getFieldStorageDefinition) ricava se il campo è definito a livello di entity
+    // // E' possibile che il campo sia definito ma non presente nel db
+    // // Per poterlo rimuovere (uninstallFieldStorageDefinition) è necessario che il campo esista a database
+    // $update_manager = \Drupal::service('entity.definition_update_manager');
+    // // $definition = $update_manager->getFieldStorageDefinition('machine_name', 'openlayers_control');
+    // $definition = $update_manager->getFieldStorageDefinition('options_test', 'openlayers_control');
     // $update_manager->uninstallFieldStorageDefinition($definition);
 
-    dpm($definition);
+    // dpm($definition);
 
     // $entity_type = 'openlayers_control';
     // // Using the storage controller (recommended).
@@ -46,7 +46,7 @@ class Dashboard extends ControllerBase {
     // dpm($entity->getFields());
     // dpm($entity->get('options')->getValue());
 
-    $node = node_load(24);
+    // $node = node_load(24);
     // kint($node->bundle());
     // \Drupal::logger('geoviz')->notice('@type: inserted %title.',
     //       array(
@@ -56,7 +56,8 @@ class Dashboard extends ControllerBase {
 
 
     $build = [
-      '#theme' => 'message_water_request',
+      // '#theme' => 'message_water_request',
+      '#theme' => 'wp4_map',
       '#attached' => [
         'library' => [
           'geoviz/openlayers',

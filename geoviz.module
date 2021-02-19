@@ -31,6 +31,9 @@ function geoviz_theme() {
     'geoviz' => [
       'render element' => 'children',
     ],
+    'wp4_map' => [
+      'variables' => [],
+    ]
   ];
 }
 
