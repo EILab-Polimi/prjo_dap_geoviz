@@ -22,7 +22,7 @@
       // var qgsUrl = 'http://localhost:8086/cgi-bin/qgis_mapserv.fcgi';
       // var qgsMap = '/var/www/qgs/vergante_web_materiale.qgs';
 
-      var qgsUrl = 'http://qgis.demo:8086/cgi-bin/qgis_mapserv.fcgi';
+      var qgsUrl = 'http://lab19.kdev.it:8086/cgi-bin/qgis_mapserv.fcgi';
       // var qgsUrl = 'http://qgis.demo/cgi-bin/qgis_mapserv.fcgi';
       // var qgsUrl = 'http://localhost:8086/cgi-bin/qgis_mapserv.fcgi';
       // var qgsUrl = 'http://local.d8mapping.it:8086/cgi-bin/qgis_mapserv.fcgi';
