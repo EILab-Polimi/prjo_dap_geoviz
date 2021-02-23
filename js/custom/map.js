@@ -320,14 +320,11 @@
                               });
 
                               // var panel_group = '<div class="panel-group">'+table+'</div>';
+                                li += '<div class="form-check">'+
+                                        '<input data-target="#infotab-'+machineName+'" class="form-check-input" type="radio" name="radiolayer">'+
+                                        '<label class="form-check-label">'+ title +'</label>'+
+                                        '</div>';
 
-                                li += '<li>'+
-                                          // '<input id="opt-'+title+'" name="intervaltype" checked type="radio" data-target="'+title+'" data-toggle="tab">'+
-                                          // '<label for="optDaily">Daily</label>'+
-                                          '<div class="radio">' +
-                                          '<label data-target="#infotab-'+machineName+'"><input type="radio" name="radiolayer">'+title+'</label>' +
-                                          '</div>' +
-                                      '</li>';
                                 tabPane += '<div class="tab-pane" id="infotab-'+machineName+'">'+
                                                 // '<p>'+title+'</p>'+
                                                 '<div class="panel-group" id="infocontent-'+machineName+'">'+table+'</div>'+
@@ -337,10 +334,9 @@
 
                             }
 
-                            var content = '<h5>Layers interrogati:</h5><ul id="info-list" class="nav nav-tabs nav-info" style="display:inline-grid;">';
+                            var content = '<h5>Layers interrogati:</h5>';
                                 content += li;
-                                content += '</ul>';
-                                // content += '<hr/>'
+                                content += '<hr/>'
                                 content += '<h5>Informazioni:</h5><div class="tab-content ">';
                                 content += tabPane;
                                 content += '</div>';
@@ -354,13 +350,15 @@
                                 //jQuery handles UI toggling correctly when we apply "data-target" attributes and call .tab('show')
                                 //on the <li> elements' immediate children, e.g the <label> elements:
                                 console.log('radio clicked');
-                                console.log($(this).closest('label').attr("data-target"));
+                                console.log($(this).attr("data-target"));
                                 // $(this).closest('label').trigger('click');
-                                $(this).closest('label').tab('show');
+                                // $(this).closest('label').tab('show');
+                                $(this).tab('show');
                                 // $(this).closest('label').attr("data-target").tab('show');
                             });
 
-                            $('#info-list > li > div > label > input').first().trigger('click');
+                            $('#info > div > input').first().trigger('click');
+                            // $('#info-list > li > div > label > input').first().trigger('click');
 
                             // $('img.open-img').click(function (){
                             //   var img = '<img class="img-responsive" style="margin:auto;" src="'+$(this).attr('src')+'"/>'
