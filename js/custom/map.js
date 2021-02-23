@@ -19,13 +19,12 @@
 
       var legend = 1;
 
-      // var qgsUrl = 'http://localhost:8086/cgi-bin/qgis_mapserv.fcgi';
-      // var qgsMap = '/var/www/qgs/vergante_web_materiale.qgs';
+      /* Localhost development */
+      // var qgsUrl = 'http://qgis.demo:8086/cgi-bin/qgis_mapserv.fcgi';
+      // var qgsMap = '/var/www/qgs/WP4/waterPortfolio.qgz';
 
-      var qgsUrl = 'http://lab19.kdev.it:8086/cgi-bin/qgis_mapserv.fcgi';
-      // var qgsUrl = 'http://qgis.demo/cgi-bin/qgis_mapserv.fcgi';
-      // var qgsUrl = 'http://localhost:8086/cgi-bin/qgis_mapserv.fcgi';
-      // var qgsUrl = 'http://local.d8mapping.it:8086/cgi-bin/qgis_mapserv.fcgi';
+      /* Demo */
+      var qgsUrl = 'https://lab19.kdev.it:8086/cgi-bin/qgis_mapserv.fcgi';
       var qgsMap = '/var/www/qgs/WP4/waterPortfolio.qgz';
 
 
@@ -63,7 +62,7 @@
           var overGroup = new ol.layer.Group({
             'title': 'Overlays',
             layers: [],
-            fold: 'open',
+            // fold: 'open',
           })
           var overLayers = overGroup.getLayers();
 
@@ -113,7 +112,8 @@
                   title: val.Title,
                   source: new ol.source.ImageWMS({
                     url: qgsUrl + '?map=' + qgsMap,
-                    params: {'LAYERS': val.Name},
+                    // params: {'LAYERS': val.Name},
+                    params: {'LAYERS': val.Title},
                     ratio: 1,
                     serverType: 'qgis'
                   })
@@ -171,12 +171,23 @@
           /**
           / LayerSwitcher in external dom element
           **/
+          // var toc = document.getElementById("layers");
+          // ol.control.LayerSwitcher.renderPanel(olMap,
+          // 	toc, { //groupSelectStyle: 'children',
+          // 				//legendInLine: legend,
+          // 				//layerStrategy: layerStrategy
+          //       });
+          //
+          // $('#layers > ul > li.layer-switcher-fold > button').trigger('click')	;
+
+          /**
+          / Layer switcher component - ilpise fork
+          **/
           var toc = document.getElementById("layers");
           ol.control.LayerSwitcher.renderPanel(olMap,
-          	toc, { //groupSelectStyle: 'children',
-          				//legendInLine: legend,
-          				//layerStrategy: layerStrategy
-                });
+            toc, {groupSelectStyle: 'children',
+                  legendInLine: legend,
+                  layerStrategy: layerStrategy });
 
           $('#layers > ul > li.layer-switcher-fold > button').trigger('click')	;
 
