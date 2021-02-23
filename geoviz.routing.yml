@@ -2,7 +2,7 @@ geoviz.dashboard:
   path: '/geoviz_test_dashboard'
   defaults:
     _controller: '\Drupal\geoviz\Controller\Dashboard::dashboard'
-    _title: 'Dashboard'
+    # _title: 'Map'
   requirements:
     _permission: 'access content'
 
