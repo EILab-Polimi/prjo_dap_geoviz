@@ -37,6 +37,7 @@
         var mapCenter = [1833763.52, 5021650.70];
         // 5021650.70 1833763.52
         // 41.063082, 16.472978
+        // var mapZoom = 7.5;
         var mapZoom = 8;
 
         // Instantiate the map
