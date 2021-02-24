@@ -106,7 +106,7 @@
           if (val.Layer instanceof Array) {
             $.each(val.Layer, jsonTreeString);
           } else {
-            if(key > 3){
+            // if(key > 3){
               // olMap.addLayer(
 
               var t = new ol.layer.Image({
@@ -124,7 +124,7 @@
                 })
 
               overLayers.push(t);
-            }
+            // }
             //  else {
             //   baseLayers.push(
             //
@@ -284,6 +284,7 @@
                                 // console.log(key);
                                 // console.log('Feature');
                                 // console.log($(this));
+                                // console.log(typeof $(this));
                                 // console.log($(this).attr('id'));
                                 // console.log($(this).get(0));
                                 // console.log($(this).context);
