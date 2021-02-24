@@ -87,3 +87,5 @@ dashboard:
   version: 1.x
   js:
     js/custom/map.js: {}
+  dependencies:
+    - core/jquery.ui.slider

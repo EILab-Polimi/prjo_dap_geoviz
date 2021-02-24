@@ -402,6 +402,9 @@
             });
 
         }
+
+        // var setStart = $( "#slider-range" ).slider( "value" );
+        // $( "#amount" ).val( setStart );
         /**/
         /* Base maps */
         /**/
@@ -427,6 +430,28 @@
 
       });
 
+      $('#slider-range', context).once('OlMap').each(function() {
+        $( "#slider-range" ).slider({
+              range: false,
+              // min: Number(mint),
+              min : 2025,
+              max: 2074,
+              // step: 86400*7, // TODO se setti lo step a una settimana le date min max non vengono refreshate in modo corretto quando si slida
+              step: 1,
+              // values: [ Number(mint), Number(mint)+(86400*7)],
+              // value: Number(mint),
+              value: 2025,
+              slide: function( event, ui ) {
+                // return (ui.values[1] - ui.values[0] > 86400*7);
+
+                // console.log('ui value ' + ui.value);
+                $( "#amount" ).val(ui.value);
+              }
+        });
+
+        $( "#amount" ).val(2025);
+
+      });
 
     }
   };
