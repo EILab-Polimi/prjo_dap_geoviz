@@ -361,10 +361,10 @@
 
                             }
 
-                            var content = '<h5>Layers interrogati:</h5>';
+                            var content = '<h5>Selected layers:</h5>';
                                 content += li;
                                 content += '<hr/>'
-                                content += '<h5>Informazioni:</h5><div class="tab-content ">';
+                                content += '<h5>Informations:</h5><div class="tab-content ">';
                                 content += tabPane;
                                 content += '</div>';
 
