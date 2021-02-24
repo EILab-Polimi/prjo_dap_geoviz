@@ -56,14 +56,14 @@
 
           // Create the empty baseGroup and get it's layers
           var baseGroup = new ol.layer.Group({
-            'title': 'Base',
+            'title': 'Basemaps',
             layers: [],
           })
           var baseLayers = baseGroup.getLayers();
 
           // Create the empty overGroup and get it's layers
           var overGroup = new ol.layer.Group({
-            'title': 'Overlays',
+            'title': 'All Layers',
             layers: [],
             // fold: 'open',
           })
@@ -137,13 +137,39 @@
 
         function setGCjsonObject (data, textStatus, jqXHR) {
           baseLayers.push(
+
             new ol.layer.Tile({
               // A layer must have a title to appear in the layerswitcher
               title: 'OSM',
               // Again set this layer as a base layer
               type: 'base',
               visible: true,
-              source: new ol.source.OSM()
+              source: new ol.source.OSM({
+                // url: 'https://tiles.wmflabs.org/bw-mapnik/${z}/${x}/${y}.png',
+                // url: 'https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png'
+                // crossOrigin: 'http://tile.openstreetmap.org'
+              })
+            }),
+            // new ol.layer.Tile({
+						// 			title: 'Cartodb',
+						// 			type: 'base',
+						// 			visible: true,
+						// 			source: new ol.source.TileWMS({
+						// 				url: 'https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png',
+						// 				// params: {'LAYERS': value.layers, 'TILED': true},
+						// 				// crossOrigin: 'anonymous'
+						// 				attributions: 'Test',
+						// 			}),
+						// })
+
+          );
+          baseLayers.push(
+            new ol.layer.Tile({
+              title: 'Stamen',
+              type: 'base',
+              source: new ol.source.Stamen({
+                layer: 'toner-lite',
+              }),
             })
           );
           console.log(overLayers);
