@@ -1,3 +1,12 @@
+# Configuration form
+geoviz.admin_settings:
+  path: '/admin/config/geviz/settings'
+  defaults:
+    _form: '\Drupal\geoviz\Form\GeovizSettingsForm'
+    _title: 'Geoviz configuration'
+  requirements:
+    _permission: 'administer site configuration'
+
 geoviz.dashboard:
   path: '/geoviz_test_dashboard'
   defaults:
@@ -5,7 +14,6 @@ geoviz.dashboard:
     # _title: 'Map'
   requirements:
     _permission: 'access content'
-
 
 geoviz.graph:
   path: '/geoviz_test_graph'

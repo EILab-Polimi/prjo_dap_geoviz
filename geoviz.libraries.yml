@@ -3,11 +3,11 @@ openlayers:
   version: 6.x
   js:
     # /libraries/ol6/ol.js: {}
-    /libraries/openlayers/build/ol.js: {}
+    /libraries/openlayers/ol.js: {}
   css:
     theme:
       # /libraries/ol6/ol.css: {}
-      /libraries/openlayers/build/ol.css: {}
+      /libraries/openlayers/ol.css: {}
 
 
 plotlyjs:

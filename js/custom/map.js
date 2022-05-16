@@ -25,13 +25,18 @@
       // var qgsUrl = 'http://qgis.demo:8086/cgi-bin/qgis_mapserv.fcgi';
       // var qgsMap = '/var/www/qgs/WP4/waterPortfolio.qgz';
 
-      /* Demo */
-      var qgsUrl = 'https://lab19.kdev.it:8086/cgi-bin/qgis_mapserv.fcgi';
-      var qgsMap = '/var/www/qgs/WP4/waterPortfolio.qgz';
 
 
       // TODO guarda linea 9 openlayers.drupal.js
-      $('#map', context).once('OlMap').each(function() {
+      $('#map', context).once().each(function() {
+
+        /* Demo */
+        console.log(settings);
+        // var qgsUrl = 'https://lab19.kdev.it:8086/cgi-bin/qgis_mapserv.fcgi';
+        // http://localhost:9003/?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetCapabilities
+        var qgsUrl = settings.geoviz.qgis_url;
+        // var qgsMap = '/var/www/qgs/WP4/waterPortfolio.qgz';
+        var qgsMap = settings.geoviz.qgis_map;
 
         console.log('Drupal.behaviors.OlMap');
 
@@ -326,7 +331,7 @@
                                 table += '<div class="card">'+
                                             '<div class="card-header">'+
                                               '<h6 class="panel-title">'+
-                                                '<a data-toggle="collapse" data-parent="#infocontent-'+machineName+'" href="#'+featureId+'">'+featureId+'</a>'+
+                                                '<a data-bs-toggle="collapse" data-bs-parent="#infocontent-'+machineName+'" href="#'+featureId+'">'+featureId+'</a>'+
                                               '</h6>'+
                                             '</div>'+
                                             '<div id="'+featureId+'" class="panel-collapse collapse '+infirst+'" style="max-height: 40vh; overflow: auto;">'+
@@ -348,7 +353,7 @@
 
                               // var panel_group = '<div class="panel-group">'+table+'</div>';
                                 li += '<div class="form-check">'+
-                                        '<input data-target="#infotab-'+machineName+'" class="form-check-input" type="radio" name="radiolayer">'+
+                                        '<input data-bs-toggle="tab" data-bs-target="#infotab-'+machineName+'" class="form-check-input" type="radio" role="tab" name="radiolayer">'+
                                         '<label class="form-check-label">'+ title +'</label>'+
                                         '</div>';
 
@@ -369,22 +374,31 @@
                                 content += '</div>';
 
                             // Reset info element
-                            document.getElementById('info').innerHTML = '';
+                            document.getElementById('info-wrap').innerHTML = '';
 
-                            document.getElementById('info').innerHTML = content;
+                            document.getElementById('info-wrap').innerHTML = content;
 
                             $('input[name="radiolayer"]').click(function () {
                                 //jQuery handles UI toggling correctly when we apply "data-target" attributes and call .tab('show')
                                 //on the <li> elements' immediate children, e.g the <label> elements:
                                 console.log('radio clicked');
-                                console.log($(this).attr("data-target"));
+                                console.log($(this).attr("data-bs-target"));
+                                var target = $(this).attr("data-bs-target");
+
+                                // $(target).toggle();
+                                $(target).show();
+
+                                // console.log($(this));
+                                // console.log( $(''+$(this).attr("data-bs-target")+'').attr() )
+                                // $(this).attr("data-target").toggle();
+                                // $(this).attr("data-target").addClass('active');
                                 // $(this).closest('label').trigger('click');
                                 // $(this).closest('label').tab('show');
-                                $(this).tab('show');
+                                // $(this).tab('show');
                                 // $(this).closest('label').attr("data-target").tab('show');
                             });
 
-                            $('#info > div > input').first().trigger('click');
+                            $('#info-wrap > div > input').first().trigger('click');
                             // $('#info-list > li > div > label > input').first().trigger('click');
 
                             // $('img.open-img').click(function (){
@@ -430,28 +444,28 @@
 
       });
 
-      $('#slider-range', context).once('OlMap').each(function() {
-        $( "#slider-range" ).slider({
-              range: false,
-              // min: Number(mint),
-              min : 2025,
-              max: 2074,
-              // step: 86400*7, // TODO se setti lo step a una settimana le date min max non vengono refreshate in modo corretto quando si slida
-              step: 1,
-              // values: [ Number(mint), Number(mint)+(86400*7)],
-              // value: Number(mint),
-              value: 2025,
-              slide: function( event, ui ) {
-                // return (ui.values[1] - ui.values[0] > 86400*7);
-
-                // console.log('ui value ' + ui.value);
-                $( "#amount" ).val(ui.value);
-              }
-        });
-
-        $( "#amount" ).val(2025);
-
-      });
+      // $('#slider-range', context).once('OlMap').each(function() {
+      //   $( "#slider-range" ).slider({
+      //         range: false,
+      //         // min: Number(mint),
+      //         min : 2025,
+      //         max: 2074,
+      //         // step: 86400*7, // TODO se setti lo step a una settimana le date min max non vengono refreshate in modo corretto quando si slida
+      //         step: 1,
+      //         // values: [ Number(mint), Number(mint)+(86400*7)],
+      //         // value: Number(mint),
+      //         value: 2025,
+      //         slide: function( event, ui ) {
+      //           // return (ui.values[1] - ui.values[0] > 86400*7);
+      //
+      //           // console.log('ui value ' + ui.value);
+      //           $( "#amount" ).val(ui.value);
+      //         }
+      //   });
+      //
+      //   $( "#amount" ).val(2025);
+      //
+      // });
 
     }
   };

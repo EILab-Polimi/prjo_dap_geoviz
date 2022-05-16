@@ -1,5 +1,6 @@
-name: 'geoviz'
+name: geoviz
 type: module
 description: 'A module to collect useful pages and tools for mapping and data visualization & analysis'
-core: 8.x
-package: 'Custom'
+core_version_requirement: ^8 || ^9
+package: ProjectO
+configure: geoviz.admin_settings
