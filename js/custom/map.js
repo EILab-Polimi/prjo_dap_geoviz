@@ -231,7 +231,7 @@
           olMap.getViewport().addEventListener('mouseover', function(evt){
               // console.info('in');
               // console.log($('#info-tab').attr("class"));
-              if ($('#info-tab').hasClass("active")){
+              if ($('#info').hasClass("active")){
                 $(this).css( 'cursor', 'crosshair' );
               } else {
                 $(this).css( 'cursor', 'default' );
@@ -382,6 +382,14 @@
                                 //jQuery handles UI toggling correctly when we apply "data-target" attributes and call .tab('show')
                                 //on the <li> elements' immediate children, e.g the <label> elements:
                                 console.log('radio clicked');
+
+
+                                // if($(this).val() === "yes") {
+                                //   $('#collapseOne').collapse('show');
+                                // } else {
+                                //   $('#collapseOne').collapse('hide');
+                                // }
+
                                 console.log($(this).attr("data-bs-target"));
                                 var target = $(this).attr("data-bs-target");
 

@@ -56,13 +56,14 @@ class Dashboard extends ControllerBase {
           'geoviz/openlayers',
           // 'openlayers/openlayers',
           // 'openlayers/openlayers-drupal',
-          // TODO wms-capabilites is not necessary - Openlayers implements the same
+          // TODO wms-capabilites https://www.npmjs.com/package/wms-capabilities
+          // is not necessary - Openlayers implements the same
           // 'geoviz/wms-capabilities',
           // 'geoviz/geoviz.customcontrol',
           // 'geoviz/geoviz.customcontrol.LayerSwitcher',
           // 'openalyers/openlayers',
           'geoviz/ol-layerswitcher',
-          // 'geoviz/ol-geocoder',
+          'geoviz/ol-geocoder',
           'geoviz/dashboard'
         ],
         'drupalSettings' => [
