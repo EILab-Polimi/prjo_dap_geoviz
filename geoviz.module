@@ -72,7 +72,7 @@ function geoviz_requirements($phase) {
           '@version' => $library['version'],
           '@path' => $library['js'][0]['data'],
           '@directory' => dirname($library['js'][0]['data']),
-          '!download' => Drupal::l('download', Drupal\Core\Url::fromUri($library['remote'])),
+          // '!download' => Drupal::l('download', Drupal\Core\Url::fromUri($library['remote'])),
         )
       );
     $requirements['geoviz']['severity'] = REQUIREMENT_ERROR;
