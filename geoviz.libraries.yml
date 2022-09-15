@@ -3,11 +3,18 @@ openlayers:
   version: 6.x
   js:
     # /libraries/ol6/ol.js: {}
-    /libraries/openlayers/ol.js: {}
+    /libraries/openlayers_from_module/ol.js: {}
   css:
     theme:
       # /libraries/ol6/ol.css: {}
-      /libraries/openlayers/ol.css: {}
+      /libraries/openlayers_from_module/ol.css: {}
+
+# openlayers:
+#   version: 7.1.0
+#   js:
+#     /libraries/openlayers/dist/ol.js: {}
+#   css:
+#     /libraries/openlayers/ol.css: {}
 
 
 plotlyjs:
@@ -60,10 +67,10 @@ ol-layerswitcher:
   license:
     name: MIT Licence
   js:
-    /libraries/ol-layerswitcher/dist/ol-layerswitcher.js: {}
+    /libraries/ol-layerswitcher-pis/dist/ol-layerswitcher.js: {}
   css:
     theme:
-      /libraries/ol-layerswitcher/src/ol-layerswitcher.css: {}
+      /libraries/ol-layerswitcher-pis/src/ol-layerswitcher.css: {}
   # dependencies:
   #   - openlayers/openlayers
   #   # - core/jquery
@@ -86,6 +93,8 @@ ol-geocoder:
 dashboard:
   version: 1.x
   js:
+    js/common/selectors.js: {}
     js/custom/map.js: {}
+    js/custom/geoviz-geocoder.js: {}
   dependencies:
     - core/jquery.ui.slider
