@@ -25,24 +25,12 @@
 
       var legend = 1;
 
-      /* Localhost development */
-      // var qgsUrl = 'http://qgis.demo:8086/cgi-bin/qgis_mapserv.fcgi';
-      // var qgsMap = '/var/www/qgs/WP4/waterPortfolio.qgz';
-
-
 
       // TODO guarda linea 9 openlayers.drupal.js
       $('#map', context).once().each(function() {
 
-        /* Demo */
-        // console.log(settings);
-        // var qgsUrl = 'https://lab19.kdev.it:8086/cgi-bin/qgis_mapserv.fcgi';
-        // http://localhost:9003/?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetCapabilities
         var qgsUrl = settings.geoviz.qgis_url;
-        // var qgsMap = '/var/www/qgs/WP4/waterPortfolio.qgz';
         var qgsMap = settings.geoviz.qgis_map;
-
-        // console.log('Drupal.behaviors.OlMap');
 
         // var mapCenter = [952345.995,5770164.701];
         var mapCenter = [1833763.52, 5021650.70];
@@ -102,8 +90,8 @@
           // jsonCap.Service
           // jsonCap.version
           // $.each( jsonCap.Capability.Layer, jsonTreeString);
-          console.log("CAPABILITIES");
-          console.log(jsonCap.Capability.Layer.Layer.reverse());
+          // console.log("CAPABILITIES");
+          // console.log(jsonCap.Capability.Layer.Layer.reverse());
           $.each( jsonCap.Capability.Layer.Layer.reverse(), jsonTreeString);
 
           // Get the extent form the getCapability result the EPSG:3857 bbox
@@ -113,9 +101,9 @@
         // recursive function to create json tree
         function jsonTreeString(key, val) {
           Drupal.behaviors.OlMap.Level = Drupal.behaviors.OlMap.Level || 0;
-          console.log("GRUPPO / LIVELLO "+ Drupal.behaviors.OlMap.Level);
-          console.log('---- jsonTreeString ---- ' + key);
-          console.log(val);
+          // console.log("GRUPPO / LIVELLO "+ Drupal.behaviors.OlMap.Level);
+          // console.log('---- jsonTreeString ---- ' + key);
+          // console.log(val);
           // // TODO to be tested for layer groups
           // Drupal.behaviors.OlMap.overGroup[key] = new ol.layer.Group({
           //   'title': val.title,
@@ -151,7 +139,7 @@
                   })
                 })
 
-              console.log('pushing layer' + val.Title + ' in '+ Drupal.behaviors.OlMap.Level);
+              // console.log('pushing layer' + val.Title + ' in '+ Drupal.behaviors.OlMap.Level);
               Drupal.behaviors.OlMap.overLayers[Drupal.behaviors.OlMap.Level].push(t);
           }
 
@@ -162,6 +150,7 @@
           var baseGroup = new ol.layer.Group({
             'title': 'Basemaps',
             layers: [],
+            // type: 'base'
           })
           var baseLayers = baseGroup.getLayers();
 
@@ -227,36 +216,10 @@
           Drupal.behaviors.OlMap.Map.addLayer(mainGroupContainer);
 
 
+          /**
+          / ADD Geocoder Controller
+          */
           Drupal.behaviors.OlMap.Map.addControl(Drupal.behaviors.OlGevizGeocoder.geocoder)
-          /**
-          / Default implementation for LayerSwitcher
-          **/
-          // var layerSwitcher = new ol.control.LayerSwitcher({
-          //         tipLabel: 'Legenda', // Optional label for button
-          //         // groupSelectStyle: 'group' // Can be 'children' [default], 'group' or 'none'
-          // });
-          // olMap.addControl(layerSwitcher);
-
-          /**
-          / LayerSwitcher instantiated using text to crete object
-          **/
-          // var layerSwitcher = new window['ol']['control']['LayerSwitcher']({
-          //   tipLabel: 'Legenda', // Optional label for button
-          //   // groupSelectStyle: 'group' // Can be 'children' [default], 'group' or 'none'
-          // });
-          // olMap.addControl(layerSwitcher);
-
-          /**
-          / LayerSwitcher in external dom element
-          **/
-          // var toc = document.getElementById("layers");
-          // ol.control.LayerSwitcher.renderPanel(olMap,
-          // 	toc, { //groupSelectStyle: 'children',
-          // 				//legendInLine: legend,
-          // 				//layerStrategy: layerStrategy
-          //       });
-          //
-          // $('#layers > ul > li.layer-switcher-fold > button').trigger('click')	;
 
           /**
           / Layer switcher component - ilpise fork
@@ -290,27 +253,9 @@
               var viewResolution = /** @type {number} */ (view.getResolution());
 
               Drupal.behaviors.OlMap.Map.forEachLayerAtPixel(evt.pixel, function(layer) {
-                  // console.log(evt.pixel);
-                  // console.log(layer.get('type'));
-                  // console.log(layer.getKeys());
-                  // console.log(layer.getProperties());
-                  // var id = layer.get('id');
-                  // console.log(id);
-                  // var title = layer.get('title');
-                  // console.log('Title');
-                  // console.log(title);
-
-                  // Add tematismo only for layers (exclude base layers)
-                  // console.log(layer.getProperties());
-                  // console.log(layer.getProperties().type);
                   if (layer.getProperties().type !== 'base' && layer.getProperties().type == 'layer'){
                     // console.log('type layer');
                     wmsSource = layer.getSource();
-
-                    // console.log(wmsSource.ol_uid);
-                    // console.log(wmsSource.getKeys());
-                    // console.log(wmsSource.getProperties());
-                    //	https://docs.qgis.org/3.4/en/docs/user_manual/working_with_ogc/server/services.html#getfeatureinfo
 
                       var url = wmsSource.getFeatureInfoUrl(
                         evt.coordinate, viewResolution, 'EPSG:3857',
@@ -355,13 +300,6 @@
                               var table = '';
                               // var accord = '';
                               xml.find("Feature").each(function (key) {
-                                // console.log(key);
-                                // console.log('Feature');
-                                // console.log($(this));
-                                // console.log(typeof $(this));
-                                // console.log($(this).attr('id'));
-                                // console.log($(this).get(0));
-                                // console.log($(this).context);
 
                                 if (key == 0) {
                                   var infirst = 'in';
@@ -426,39 +364,14 @@
                                 //on the <li> elements' immediate children, e.g the <label> elements:
                                 console.log('radio clicked');
 
-
-                                // if($(this).val() === "yes") {
-                                //   $('#collapseOne').collapse('show');
-                                // } else {
-                                //   $('#collapseOne').collapse('hide');
-                                // }
-
                                 console.log($(this).attr("data-bs-target"));
                                 var target = $(this).attr("data-bs-target");
 
                                 // $(target).toggle();
                                 $(target).show();
-
-                                // console.log($(this));
-                                // console.log( $(''+$(this).attr("data-bs-target")+'').attr() )
-                                // $(this).attr("data-target").toggle();
-                                // $(this).attr("data-target").addClass('active');
-                                // $(this).closest('label').trigger('click');
-                                // $(this).closest('label').tab('show');
-                                // $(this).tab('show');
-                                // $(this).closest('label').attr("data-target").tab('show');
                             });
 
                             $('#info-wrap > div > input').first().trigger('click');
-                            // $('#info-list > li > div > label > input').first().trigger('click');
-
-                            // $('img.open-img').click(function (){
-                            //   var img = '<img class="img-responsive" style="margin:auto;" src="'+$(this).attr('src')+'"/>'
-                            //   $('#imagecontainer').html(img);
-                            //   $('#imgTitle').html();
-                            //
-                            //   $('#imageModal').modal('show');
-                            // });
 
                           });
                       }
@@ -466,57 +379,88 @@
               });
             });
 
+
+          /**
+          / EXTENT
+          / https://gis.stackexchange.com/questions/240372/how-do-i-get-all-the-layer-vectors-added-to-a-map-in-openlayers-3
+          */
+          //Create an empty extent that we will gradually extend
+          var extent = ol.extent.createEmpty();
+
+          // Uguale al FILTERING ma senza arrow function
+          Drupal.behaviors.OlMap.Map.getLayers().forEach(function(layer) {
+            console.log(layer);
+              //If this is actually a group, we need to create an inner loop to go through its individual layers
+              if(layer instanceof ol.layer.Group) {
+                  layer.getLayers().forEach(function(groupLayer) {
+                      //If this is a vector layer, add it to our extent
+                      if (layer instanceof ol.layer.Vector) {
+                        console.log('Vector');
+                        ol.extent.extend(extent, groupLayer.getSource().getExtent());
+                      } else if (layer instanceof ol.layer.Image) {
+                        console.log(layer.get('title'));
+                        ol.extent.extend(extent, groupLayer.getSource().getExtent());
+                      } else if(layer instanceof ol.layer.Group) {
+                        console.log('--- Group ---');
+                        layer.getLayers().forEach(function(groupLayer) {
+                          console.log(layer.get('title'));
+                        })
+
+                      }
+                  });
+              } else if (layer instanceof ol.layer.Vector || layer instanceof ol.layer.Image){
+                 ol.extent.extend(extent, layer.getSource().getExtent());
+              }
+          });
+
+          //Finally fit the map's view to our combined extent
+          // Drupal.behaviors.OlMap.Map.getView().fit(extent, Drupal.behaviors.OlMap.Map.getSize());
+
+
+          /**
+          / FILTERING
+          */
+          console.log(Drupal.behaviors.OlMap.Map.getLayers());
+          Drupal.behaviors.OlMap.filterLayers(Drupal.behaviors.OlMap.Map);
+
         }
-
-        // var setStart = $( "#slider-range" ).slider( "value" );
-        // $( "#amount" ).val( setStart );
-        /**/
-        /* Base maps */
-        /**/
-    		// var osm = new ol.layer.Tile({
-    		// 			source: new ol.source.OSM({
-    		// 			"url": "http://{a-c}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png"})
-    		// 			});
-    		// osm.set('name','osm')
-        //
-        // // TODO multple base maps
-        //
-        // // Add baseMaps to the base Group
-        // var baseGroup = new ol.layer.Group({
-        //                                     layers: [osm]
-        //                                   });
-        /**/
-        /* END Base maps */
-        /**/
-
-
-
-
 
       });
 
-      // $('#slider-range', context).once('OlMap').each(function() {
-      //   $( "#slider-range" ).slider({
-      //         range: false,
-      //         // min: Number(mint),
-      //         min : 2025,
-      //         max: 2074,
-      //         // step: 86400*7, // TODO se setti lo step a una settimana le date min max non vengono refreshate in modo corretto quando si slida
-      //         step: 1,
-      //         // values: [ Number(mint), Number(mint)+(86400*7)],
-      //         // value: Number(mint),
-      //         value: 2025,
-      //         slide: function( event, ui ) {
-      //           // return (ui.values[1] - ui.values[0] > 86400*7);
-      //
-      //           // console.log('ui value ' + ui.value);
-      //           $( "#amount" ).val(ui.value);
-      //         }
-      //   });
-      //
-      //   $( "#amount" ).val(2025);
-      //
-      // });
+
+      /**
+      / Recursive function to cycle on all the nested layers
+      */
+      Drupal.behaviors.OlMap.filterLayers = function (obj) {
+        console.log(obj);
+        obj.getLayers().forEach(function(layer) {
+          // console.log(layer.get('title') );
+          // console.log(layer.type);
+          if(layer instanceof ol.layer.Group) {
+            // console.log(layer.get('title') );
+            Drupal.behaviors.OlMap.filterLayers(layer)
+          } else if(layer instanceof ol.layer.Image) {
+            console.log(layer.get('title'));
+            var source = layer.getSource();
+            var params = source.getParams();
+            console.log(source);
+            // console.log(source.getAttributions()); // null
+            // console.log(source.getKeys());// empty array
+            console.log(params);
+            if (params.LAYERS == 'new_wells'){
+              console.log("--- FILTERING new_wells ---");
+              params.FILTER = ''+layer.get('title')+':"exp_id" = '+Drupal.behaviors.Common.Selectors.WPP; // Funziona
+            }
+            if (params.LAYERS == 'i_irr_def_mean_h'){
+              params.FILTER = ''+layer.get('title')+':"exp_id" = '+Drupal.behaviors.Common.Selectors.WPP+' AND "scen_id" = '+Drupal.behaviors.Common.Selectors.SCEN;
+            }
+            // // console.log(params);
+            source.updateParams(params);
+
+
+          }
+        });
+      }
 
     }
   };
