@@ -10,7 +10,11 @@
     attach: function (context, settings) {
       // console.log('Drupal.behaviors.OlMap');
 
+      Drupal.behaviors.OlMap.Map = Drupal.behaviors.OlMap.Map || {};
       Drupal.behaviors.OlMap.FEATURE_COUNT = Drupal.behaviors.OlMap.FEATURE_COUNT || 10;
+
+      Drupal.behaviors.OlMap.overGroup = Drupal.behaviors.OlMap.overGroup || {}
+      Drupal.behaviors.OlMap.overLayers = Drupal.behaviors.OlMap.overLayers || {}
 
       // @ layerStrategy : 1 == vengono costruite source ol.source.ImageWMS
       //                        inserite in layer lo.layer.Image
@@ -31,14 +35,14 @@
       $('#map', context).once().each(function() {
 
         /* Demo */
-        console.log(settings);
+        // console.log(settings);
         // var qgsUrl = 'https://lab19.kdev.it:8086/cgi-bin/qgis_mapserv.fcgi';
         // http://localhost:9003/?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetCapabilities
         var qgsUrl = settings.geoviz.qgis_url;
         // var qgsMap = '/var/www/qgs/WP4/waterPortfolio.qgz';
         var qgsMap = settings.geoviz.qgis_map;
 
-        console.log('Drupal.behaviors.OlMap');
+        // console.log('Drupal.behaviors.OlMap');
 
         // var mapCenter = [952345.995,5770164.701];
         var mapCenter = [1833763.52, 5021650.70];
@@ -53,26 +57,27 @@
     						center: mapCenter,
     						zoom: mapZoom
     			})
-    			var olMap = new ol.Map({
+    			// var olMap = new ol.Map({
+          Drupal.behaviors.OlMap.Map = new ol.Map({
             layers: [],
     				target: 'map',
     				view: view
     			});
 
           // Create the empty baseGroup and get it's layers
-          var baseGroup = new ol.layer.Group({
-            'title': 'Basemaps',
-            layers: [],
-          })
-          var baseLayers = baseGroup.getLayers();
+          // var baseGroup = new ol.layer.Group({
+          //   'title': 'Basemaps',
+          //   layers: [],
+          // })
+          // var baseLayers = baseGroup.getLayers();
 
-          // Create the empty overGroup and get it's layers
-          var overGroup = new ol.layer.Group({
+          // Create the empty mainGroupContainer and get it's layers
+          var mainGroupContainer = new ol.layer.Group({
             'title': 'All Layers',
             layers: [],
             // fold: 'open',
           })
-          var overLayers = overGroup.getLayers();
+          var overLayers = mainGroupContainer.getLayers();
 
         // WMS GetCapabilities
         $.ajax({
@@ -92,11 +97,13 @@
 
           // Using OL parser
           var jsonCap = new ol.format.WMSCapabilities().read(capability);
-          console.log(jsonCap);
+          // console.log(jsonCap);
 
           // jsonCap.Service
           // jsonCap.version
           // $.each( jsonCap.Capability.Layer, jsonTreeString);
+          console.log("CAPABILITIES");
+          console.log(jsonCap.Capability.Layer.Layer.reverse());
           $.each( jsonCap.Capability.Layer.Layer.reverse(), jsonTreeString);
 
           // Get the extent form the getCapability result the EPSG:3857 bbox
@@ -105,15 +112,31 @@
 
         // recursive function to create json tree
         function jsonTreeString(key, val) {
-          console.log(key);
+          Drupal.behaviors.OlMap.Level = Drupal.behaviors.OlMap.Level || 0;
+          console.log("GRUPPO / LIVELLO "+ Drupal.behaviors.OlMap.Level);
+          console.log('---- jsonTreeString ---- ' + key);
           console.log(val);
-          // TODO to be tested for layer groups
+          // // TODO to be tested for layer groups
+          // Drupal.behaviors.OlMap.overGroup[key] = new ol.layer.Group({
+          //   'title': val.title,
+          //   layers: [],
+          //   // fold: 'open',
+          // })
+          // Drupal.behaviors.OlMap.overLayers[key] = Drupal.behaviors.OlMap.overGroup[key].getLayers();
+
           if (val.Layer instanceof Array) {
+            console.log("ENTERED ITERATION");
+            Drupal.behaviors.OlMap.Level = key;
+            // TODO to be tested for layer groups
+            Drupal.behaviors.OlMap.overGroup[key] = new ol.layer.Group({
+              'title': val.title,
+              layers: [],
+              // fold: 'open',
+            })
+            Drupal.behaviors.OlMap.overLayers[key] = Drupal.behaviors.OlMap.overGroup[key].getLayers();
+
             $.each(val.Layer, jsonTreeString);
           } else {
-            // if(key > 3){
-              // olMap.addLayer(
-
               var t = new ol.layer.Image({
                 // visible: true,
                 // visible: false,
@@ -128,21 +151,21 @@
                   })
                 })
 
-              overLayers.push(t);
-            // }
-            //  else {
-            //   baseLayers.push(
-            //
-            //   );
-            // }
-
+              console.log('pushing layer' + val.Title + ' in '+ Drupal.behaviors.OlMap.Level);
+              Drupal.behaviors.OlMap.overLayers[Drupal.behaviors.OlMap.Level].push(t);
           }
 
         }
 
         function setGCjsonObject (data, textStatus, jqXHR) {
-          baseLayers.push(
+          // Create the empty baseGroup and get it's layers
+          var baseGroup = new ol.layer.Group({
+            'title': 'Basemaps',
+            layers: [],
+          })
+          var baseLayers = baseGroup.getLayers();
 
+          baseLayers.push(
             new ol.layer.Tile({
               // A layer must have a title to appear in the layerswitcher
               title: 'OSM',
@@ -155,18 +178,6 @@
                 // crossOrigin: 'http://tile.openstreetmap.org'
               })
             }),
-            // new ol.layer.Tile({
-						// 			title: 'Cartodb',
-						// 			type: 'base',
-						// 			visible: true,
-						// 			source: new ol.source.TileWMS({
-						// 				url: 'https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png',
-						// 				// params: {'LAYERS': value.layers, 'TILED': true},
-						// 				// crossOrigin: 'anonymous'
-						// 				attributions: 'Test',
-						// 			}),
-						// })
-
           );
           baseLayers.push(
             new ol.layer.Tile({
@@ -177,14 +188,46 @@
               }),
             })
           );
-          console.log(overLayers);
-          overGroup.setLayers(overLayers);
+          // console.log(overLayers);
+          // console.log();
+
+/////////////////// Hard coded for Sept 09 2022 - School
+          var fakeG1 = new ol.layer.Group({
+            'title': 'fakeG1',
+            layers: [
+              new ol.layer.Group({
+                'title': 'Uno',
+                layers: Drupal.behaviors.OlMap.overLayers[0],
+                // fold: 'open',
+              }),
+              new ol.layer.Group({
+                'title': 'Due',
+                layers: Drupal.behaviors.OlMap.overLayers[1],
+                // fold: 'open',
+              }),
+
+            ]
+            // fold: 'open',
+          })
+
+          var overLayersG1 = fakeG1.getLayers();
+          mainGroupContainer.setLayers(overLayersG1)
+///////////////////
+
+          // $.each( Drupal.behaviors.OlMap.overGroup, function(key,val){
+          //   console.log(key);
+          //   console.log(val);
+          //   // overGroup.setLayers(val)
+          //   overGroup.setLayers(Drupal.behaviors.OlMap.overLayers)
+          // });
+
           baseGroup.setLayers(baseLayers);
 
-          // olMap.addLayer([baseGroup, overGroup]);
-          olMap.addLayer(baseGroup);
-          olMap.addLayer(overGroup);
+          Drupal.behaviors.OlMap.Map.addLayer(baseGroup);
+          Drupal.behaviors.OlMap.Map.addLayer(mainGroupContainer);
 
+
+          Drupal.behaviors.OlMap.Map.addControl(Drupal.behaviors.OlGevizGeocoder.geocoder)
           /**
           / Default implementation for LayerSwitcher
           **/
@@ -219,7 +262,7 @@
           / Layer switcher component - ilpise fork
           **/
           var toc = document.getElementById("layers");
-          ol.control.LayerSwitcher.renderPanel(olMap,
+          ol.control.LayerSwitcher.renderPanel(Drupal.behaviors.OlMap.Map,
             toc, {groupSelectStyle: 'children',
                   legendInLine: legend,
                   layerStrategy: layerStrategy });
@@ -228,7 +271,7 @@
 
 
           // Change mouse pointer when on map and the info-tab is selected
-          olMap.getViewport().addEventListener('mouseover', function(evt){
+          Drupal.behaviors.OlMap.Map.getViewport().addEventListener('mouseover', function(evt){
               // console.info('in');
               // console.log($('#info-tab').attr("class"));
               if ($('#info').hasClass("active")){
@@ -239,14 +282,14 @@
           }, false);
 
           // Feature info behavior
-          olMap.on('singleclick', function(evt) {
+          Drupal.behaviors.OlMap.Map.on('singleclick', function(evt) {
               // console.log(evt);
               console.log('singleclick');
               var li = '';
               var tabPane = '';
               var viewResolution = /** @type {number} */ (view.getResolution());
 
-              olMap.forEachLayerAtPixel(evt.pixel, function(layer) {
+              Drupal.behaviors.OlMap.Map.forEachLayerAtPixel(evt.pixel, function(layer) {
                   // console.log(evt.pixel);
                   // console.log(layer.get('type'));
                   // console.log(layer.getKeys());
@@ -260,8 +303,8 @@
                   // Add tematismo only for layers (exclude base layers)
                   // console.log(layer.getProperties());
                   // console.log(layer.getProperties().type);
-                  if (layer.getProperties().type !== 'base'){
-                    console.log('type layer');
+                  if (layer.getProperties().type !== 'base' && layer.getProperties().type == 'layer'){
+                    // console.log('type layer');
                     wmsSource = layer.getSource();
 
                     // console.log(wmsSource.ol_uid);

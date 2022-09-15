@@ -1,3 +1,45 @@
+<div class="row">
+  <div class="col">
+    <h4 style="color:#395360;">Evaluation charts</h4>
+    <p style="font-size: 10px;">Analyze evaluation indicators of the selected combination of the WPP and scenario or choose a different one</p>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col">
+
+        <div class="row">
+          <div class="col">
+            <div class="card bg-primary">
+              <div class="card-body p-0">
+                <div class="row">
+                  <div class="col-3 ms-1">
+                    <div class="form-floating">
+                      <select class="form-select" id="wpp"></select>
+                      <!-- <div class="form-select" id="wpp"></div> -->
+                      <label for="wpp">Selected Water portfolio</label>
+                    </div>
+                  </div>
+                  <div class="col-3 ms-1">
+                    <div class="form-floating">
+                      <select class="form-select" id="scen"></select>
+                      <label for="scen">Selected scenario</label>
+                    </div>
+                  </div>
+                  <!-- <div class="col-3 my-1">
+                    <div class="form-floating">
+                      <select class="form-select" id="ind"></select>
+                      <label for="scen">Selected indicator</label>
+                    </div>
+                  </div> -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+  </div>
+</div>
 
 <div class="row">
   <!-- MAP -->
@@ -47,23 +89,23 @@
 
             <!-- <form class="form-inline d-none d-sm-inline-block mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search"> -->
             <div class="form-group">
-              <div class="input-group">
+              <!-- <div class="input-group">
                   <input class="bg-light form-control border-0 small" type="text" placeholder="Search for ...">
                   <div class="input-group-append">
                     <button class="btn btn-primary py-0" type="button" style="background: #36b9cc;border-top-color: rgb(78,188,223);"><i class="fas fa-search"></i></button>
                   </div>
-              </div>
-
-              <div class="input-group">
-                <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon2">
+              </div> -->
+              <div id="gvz_search"></div>
+              <!-- <div class="input-group">
+                <input id="gvz_search" type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon2">
                 <button class="btn btn-outline-secondary" type="button" id="button-addon2">Button</button>
-              </div>  
+              </div> -->
             </div>
             <!-- </form> -->
 
             <hr>
 
-            <div class="form-group">
+            <!-- <div class="form-group">
               <label class="form-check-label">
                 Select Indicator - Spatial aggregation
               </label>
@@ -97,11 +139,11 @@
                   Yearly distribution costs for Apulian Aqueduct - Main Vectors
                 </label>
               </div>
-            </div>
+            </div> -->
 
-            <hr>
+            <!-- <hr> -->
 
-            <div class="form-group">
+            <!-- <div class="form-group">
               <label for="slider-range">Select year</label>
 
               <div id="slider-range"></div>
@@ -118,7 +160,7 @@
                 <input type="text" id="amount" style="-webkit-box-shadow:unset; box-shadow:unset; border: 0; font-weight: bold;" size="10" readonly>
               </div>
 
-            </div>
+            </div> -->
 
           </div>
           <div class="tab-pane" id="info">
