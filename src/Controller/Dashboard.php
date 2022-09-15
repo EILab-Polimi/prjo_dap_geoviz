@@ -38,6 +38,16 @@ class Dashboard extends ControllerBase {
    */
   public function dashboard() {
 
+    // Get the configured url for fastAPI
+    $config = \Drupal::config('dap.settings');
+
+    if ($config->get('fastapi_sel') == 0){
+      $fastAPIurl = $config->get('fastapi_dev_url');
+    } else {
+      $fastAPIurl = $config->get('fastapi_prod_url');
+    }
+
+    // Get the configured url for Qgis server
     $config = \Drupal::config('geoviz.settings');
 
     if ($config->get('qgis_server_sel') == 0){
@@ -48,6 +58,9 @@ class Dashboard extends ControllerBase {
 
     $QgisMap = $config->get('qgis_server_map');
 
+    // TODO - se cambiamo la mappa nella configuarazione viene comunque visualizzata quella precedente
+    // Mettere cache a 0
+    // o capire se è possibile iniettare un servizio
     $build = [
       // '#theme' => 'message_water_request',
       '#theme' => 'wp4_map',
@@ -70,6 +83,7 @@ class Dashboard extends ControllerBase {
           'geoviz' => [
               'qgis_url' => $QgisUrl,
               'qgis_map' => $QgisMap,
+              'fastapi_url' => $fastAPIurl,
           ]
         ]
 
