@@ -384,37 +384,37 @@
           / EXTENT
           / https://gis.stackexchange.com/questions/240372/how-do-i-get-all-the-layer-vectors-added-to-a-map-in-openlayers-3
           */
-          //Create an empty extent that we will gradually extend
-          var extent = ol.extent.createEmpty();
-
-          // Uguale al FILTERING ma senza arrow function
-          Drupal.behaviors.OlMap.Map.getLayers().forEach(function(layer) {
-            console.log(layer);
-              //If this is actually a group, we need to create an inner loop to go through its individual layers
-              if(layer instanceof ol.layer.Group) {
-                  layer.getLayers().forEach(function(groupLayer) {
-                      //If this is a vector layer, add it to our extent
-                      if (layer instanceof ol.layer.Vector) {
-                        console.log('Vector');
-                        ol.extent.extend(extent, groupLayer.getSource().getExtent());
-                      } else if (layer instanceof ol.layer.Image) {
-                        console.log(layer.get('title'));
-                        ol.extent.extend(extent, groupLayer.getSource().getExtent());
-                      } else if(layer instanceof ol.layer.Group) {
-                        console.log('--- Group ---');
-                        layer.getLayers().forEach(function(groupLayer) {
-                          console.log(layer.get('title'));
-                        })
-
-                      }
-                  });
-              } else if (layer instanceof ol.layer.Vector || layer instanceof ol.layer.Image){
-                 ol.extent.extend(extent, layer.getSource().getExtent());
-              }
-          });
-
-          //Finally fit the map's view to our combined extent
-          // Drupal.behaviors.OlMap.Map.getView().fit(extent, Drupal.behaviors.OlMap.Map.getSize());
+          // //Create an empty extent that we will gradually extend
+          // var extent = ol.extent.createEmpty();
+          //
+          // // Uguale al FILTERING ma senza arrow function
+          // Drupal.behaviors.OlMap.Map.getLayers().forEach(function(layer) {
+          //   console.log(layer);
+          //     //If this is actually a group, we need to create an inner loop to go through its individual layers
+          //     if(layer instanceof ol.layer.Group) {
+          //         layer.getLayers().forEach(function(groupLayer) {
+          //             //If this is a vector layer, add it to our extent
+          //             if (layer instanceof ol.layer.Vector) {
+          //               console.log('Vector');
+          //               ol.extent.extend(extent, groupLayer.getSource().getExtent());
+          //             } else if (layer instanceof ol.layer.Image) {
+          //               console.log(layer.get('title'));
+          //               ol.extent.extend(extent, groupLayer.getSource().getExtent());
+          //             } else if(layer instanceof ol.layer.Group) {
+          //               console.log('--- Group ---');
+          //               layer.getLayers().forEach(function(groupLayer) {
+          //                 console.log(layer.get('title'));
+          //               })
+          //
+          //             }
+          //         });
+          //     } else if (layer instanceof ol.layer.Vector || layer instanceof ol.layer.Image){
+          //        ol.extent.extend(extent, layer.getSource().getExtent());
+          //     }
+          // });
+          //
+          // //Finally fit the map's view to our combined extent
+          // // Drupal.behaviors.OlMap.Map.getView().fit(extent, Drupal.behaviors.OlMap.Map.getSize());
 
 
           /**
