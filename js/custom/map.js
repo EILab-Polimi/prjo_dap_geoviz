@@ -405,23 +405,12 @@
             // Recursion on groups to get layers
             Drupal.behaviors.OlMap.filterLayers(layer)
           } else if(layer instanceof ol.layer.Image && Drupal.behaviors.OlMap.ApplyFilter) {
-            console.log(layer.get('title'));
+            // console.log(layer.get('title'));
             var source = layer.getSource();
             var params = source.getParams();
-            console.log(source);
-            // console.log(source.getAttributions()); // null
-            // console.log(source.getKeys());// empty array
-            console.log(params);
-            // if (params.LAYERS == 'new_wells'){
-            //   console.log("--- FILTERING new_wells ---");
-            //   params.FILTER = ''+layer.get('title')+':"exp_id" = '+Drupal.behaviors.Common.Selectors.WPP; // Funziona
-            // }
-            // if (params.LAYERS == 'i_irr_def_mean_h'){
-            //   params.FILTER = ''+layer.get('title')+':"exp_id" = '+Drupal.behaviors.Common.Selectors.WPP+' AND "scen_id" = '+Drupal.behaviors.Common.Selectors.SCEN;
-            // }
-
+            // console.log(source);
+            // console.log(params);
             params.FILTER = ''+layer.get('title')+':"exp_id" = '+Drupal.behaviors.Common.Selectors.WPP+' AND "scen_id" = '+Drupal.behaviors.Common.Selectors.SCEN;
-            // // console.log(params);
             source.updateParams(params);
           }
         });
