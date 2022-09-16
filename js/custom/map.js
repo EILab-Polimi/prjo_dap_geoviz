@@ -16,6 +16,8 @@
       Drupal.behaviors.OlMap.overGroup = Drupal.behaviors.OlMap.overGroup || {}
       Drupal.behaviors.OlMap.overLayers = Drupal.behaviors.OlMap.overLayers || {}
 
+
+      Drupal.behaviors.OlMap.ApplyFilter = Drupal.behaviors.OlMap.ApplyFilter || false;
       // @ layerStrategy : 1 == vengono costruite source ol.source.ImageWMS
       //                        inserite in layer lo.layer.Image
       //                      new ol.layer.Image({
@@ -379,6 +381,9 @@
           console.log(Drupal.behaviors.OlMap.Map.getLayers());
           Drupal.behaviors.OlMap.filterLayers(Drupal.behaviors.OlMap.Map);
 
+          console.log("I think is Synk");
+          Drupal.behaviors.OlMap.ApplyFilter = false;
+
         }
 
       });
@@ -389,13 +394,17 @@
       */
       Drupal.behaviors.OlMap.filterLayers = function (obj) {
         console.log(obj);
+        if (obj.get('title') == 'Evaluation Indicators'){
+          console.log(" ---- ooooooooo -----  ");
+          Drupal.behaviors.OlMap.ApplyFilter = true;
+        }
         obj.getLayers().forEach(function(layer) {
           // console.log(layer.get('title') );
           // console.log(layer.type);
           if(layer instanceof ol.layer.Group) {
-            // console.log(layer.get('title') );
+            // Recursion on groups to get layers
             Drupal.behaviors.OlMap.filterLayers(layer)
-          } else if(layer instanceof ol.layer.Image) {
+          } else if(layer instanceof ol.layer.Image && Drupal.behaviors.OlMap.ApplyFilter) {
             console.log(layer.get('title'));
             var source = layer.getSource();
             var params = source.getParams();
@@ -403,17 +412,17 @@
             // console.log(source.getAttributions()); // null
             // console.log(source.getKeys());// empty array
             console.log(params);
-            if (params.LAYERS == 'new_wells'){
-              console.log("--- FILTERING new_wells ---");
-              params.FILTER = ''+layer.get('title')+':"exp_id" = '+Drupal.behaviors.Common.Selectors.WPP; // Funziona
-            }
-            if (params.LAYERS == 'i_irr_def_mean_h'){
-              params.FILTER = ''+layer.get('title')+':"exp_id" = '+Drupal.behaviors.Common.Selectors.WPP+' AND "scen_id" = '+Drupal.behaviors.Common.Selectors.SCEN;
-            }
+            // if (params.LAYERS == 'new_wells'){
+            //   console.log("--- FILTERING new_wells ---");
+            //   params.FILTER = ''+layer.get('title')+':"exp_id" = '+Drupal.behaviors.Common.Selectors.WPP; // Funziona
+            // }
+            // if (params.LAYERS == 'i_irr_def_mean_h'){
+            //   params.FILTER = ''+layer.get('title')+':"exp_id" = '+Drupal.behaviors.Common.Selectors.WPP+' AND "scen_id" = '+Drupal.behaviors.Common.Selectors.SCEN;
+            // }
+
+            params.FILTER = ''+layer.get('title')+':"exp_id" = '+Drupal.behaviors.Common.Selectors.WPP+' AND "scen_id" = '+Drupal.behaviors.Common.Selectors.SCEN;
             // // console.log(params);
             source.updateParams(params);
-
-
           }
         });
       }
