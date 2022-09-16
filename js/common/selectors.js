@@ -81,6 +81,9 @@
 
         $( "#scen" ).change(function() {
           Drupal.behaviors.Common.Selectors.SCEN = this.value
+          // Reset Drupal.behaviors.OlMap.ApplyFilter to False
+          Drupal.behaviors.OlMap.ApplyFilter = false;
+          // Call the function to filter the layers
           Drupal.behaviors.OlMap.filterLayers(Drupal.behaviors.OlMap.Map);
         })
 
@@ -98,6 +101,9 @@
 
         $( "#wpp" ).change(function() {
           Drupal.behaviors.Common.Selectors.WPP = this.value
+          // Reset Drupal.behaviors.OlMap.ApplyFilter to False
+          Drupal.behaviors.OlMap.ApplyFilter = false;
+          // Call the function to filter the layers
           Drupal.behaviors.OlMap.filterLayers(Drupal.behaviors.OlMap.Map);
         })
 
