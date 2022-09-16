@@ -60,12 +60,12 @@
           // var baseLayers = baseGroup.getLayers();
 
           // Create the empty mainGroupContainer and get it's layers
-          var mainGroupContainer = new ol.layer.Group({
-            'title': 'All Layers',
-            layers: [],
-            // fold: 'open',
-          })
-          var overLayers = mainGroupContainer.getLayers();
+          // var mainGroupContainer = new ol.layer.Group({
+          //   'title': 'All Layers',
+          //   layers: [],
+          //   // fold: 'open',
+          // })
+          // var overLayers = mainGroupContainer.getLayers();
 
         // WMS GetCapabilities
         $.ajax({
@@ -93,17 +93,22 @@
           // console.log("CAPABILITIES");
           // console.log(jsonCap.Capability.Layer.Layer.reverse());
           $.each( jsonCap.Capability.Layer.Layer.reverse(), jsonTreeString);
+          // $.each( jsonCap.Capability.Layer.Layer, jsonTreeString);
 
+          // TODO
           // Get the extent form the getCapability result the EPSG:3857 bbox
           // console.log(capability.Layer.BoundingBox);
+
         }
 
         // recursive function to create json tree
         function jsonTreeString(key, val) {
-          Drupal.behaviors.OlMap.Level = Drupal.behaviors.OlMap.Level || 0;
-          // console.log("GRUPPO / LIVELLO "+ Drupal.behaviors.OlMap.Level);
-          // console.log('---- jsonTreeString ---- ' + key);
-          // console.log(val);
+          Drupal.behaviors.OlMap.GroupID = Drupal.behaviors.OlMap.GroupID || 0;
+          console.log("GROUP ID "+ Drupal.behaviors.OlMap.GroupID);
+          console.log('---- jsonTreeString ---- ' + key);
+          // console.log(val.Name);
+          // console.log(val.Title);
+          console.log(val);
           // // TODO to be tested for layer groups
           // Drupal.behaviors.OlMap.overGroup[key] = new ol.layer.Group({
           //   'title': val.title,
@@ -114,14 +119,21 @@
 
           if (val.Layer instanceof Array) {
             console.log("ENTERED ITERATION");
-            Drupal.behaviors.OlMap.Level = key;
+            // Reverse the array of layers
+            // This is to have the order in Legend like in Qgis desktop project
+            val.Layer.reverse()
+
+            Drupal.behaviors.OlMap.GroupID = key;
             // TODO to be tested for layer groups
-            Drupal.behaviors.OlMap.overGroup[key] = new ol.layer.Group({
-              'title': val.title,
+            // console.log(val.title);
+
+            // Create the group with GroupID - the GroupID does not change in recursion
+            Drupal.behaviors.OlMap.overGroup[Drupal.behaviors.OlMap.GroupID] = new ol.layer.Group({
+              'title': val.Title,
               layers: [],
               // fold: 'open',
             })
-            Drupal.behaviors.OlMap.overLayers[key] = Drupal.behaviors.OlMap.overGroup[key].getLayers();
+            Drupal.behaviors.OlMap.overLayers[Drupal.behaviors.OlMap.GroupID] = Drupal.behaviors.OlMap.overGroup[Drupal.behaviors.OlMap.GroupID].getLayers();
 
             $.each(val.Layer, jsonTreeString);
           } else {
@@ -139,9 +151,10 @@
                   })
                 })
 
-              // console.log('pushing layer' + val.Title + ' in '+ Drupal.behaviors.OlMap.Level);
-              Drupal.behaviors.OlMap.overLayers[Drupal.behaviors.OlMap.Level].push(t);
+              // console.log('pushing layer' + val.Title + ' in '+ Drupal.behaviors.OlMap.GroupID);
+              Drupal.behaviors.OlMap.overLayers[Drupal.behaviors.OlMap.GroupID].push(t);
           }
+          Drupal.behaviors.OlMap.overLayers[Drupal.behaviors.OlMap.GroupID] = Drupal.behaviors.OlMap.overGroup[Drupal.behaviors.OlMap.GroupID].getLayers();
 
         }
 
@@ -181,26 +194,44 @@
           // console.log();
 
 /////////////////// Hard coded for Sept 09 2022 - School
-          var fakeG1 = new ol.layer.Group({
-            'title': 'fakeG1',
-            layers: [
-              new ol.layer.Group({
-                'title': 'Uno',
-                layers: Drupal.behaviors.OlMap.overLayers[0],
-                // fold: 'open',
-              }),
-              new ol.layer.Group({
-                'title': 'Due',
-                layers: Drupal.behaviors.OlMap.overLayers[1],
-                // fold: 'open',
-              }),
+          // var fakeG1 = new ol.layer.Group({
+          //   'title': 'fakeG1',
+          //   layers: [
+          //     new ol.layer.Group({
+          //       'title': 'Uno',
+          //       layers: Drupal.behaviors.OlMap.overLayers[0],
+          //       // fold: 'open',
+          //     }),
+          //     new ol.layer.Group({
+          //       'title': 'Due',
+          //       layers: Drupal.behaviors.OlMap.overLayers[1],
+          //       // fold: 'open',
+          //     }),
+          //
+          //   ]
+          //   // fold: 'open',
+          // })
 
-            ]
-            // fold: 'open',
-          })
+          // WORKING FOR SCHOOL
+          // var fakeG1 = new ol.layer.Group({
+          //   'title': 'fakeG1',
+          //   layers: [
+          //             Drupal.behaviors.OlMap.overGroup[0],
+          //             Drupal.behaviors.OlMap.overGroup[1],
+          //           ]
+          //   // fold: 'open',
+          // })
 
-          var overLayersG1 = fakeG1.getLayers();
-          mainGroupContainer.setLayers(overLayersG1)
+
+          // var fakeG1 = new ol.layer.Group({
+          //   'title': 'fakeG1',
+          //   layers: Drupal.behaviors.OlMap.overGroup,
+          //   // fold: 'open',
+          // })
+
+
+          // var overLayersG1 = fakeG1.getLayers();
+          // mainGroupContainer.setLayers(overLayersG1)
 ///////////////////
 
           // $.each( Drupal.behaviors.OlMap.overGroup, function(key,val){
@@ -213,7 +244,11 @@
           baseGroup.setLayers(baseLayers);
 
           Drupal.behaviors.OlMap.Map.addLayer(baseGroup);
-          Drupal.behaviors.OlMap.Map.addLayer(mainGroupContainer);
+          // Drupal.behaviors.OlMap.Map.addLayer(mainGroupContainer);
+          $.each(Drupal.behaviors.OlMap.overGroup, function(k,v){
+              Drupal.behaviors.OlMap.Map.addLayer(v);
+          })
+          // Drupal.behaviors.OlMap.Map.addLayer(Drupal.behaviors.OlMap.overGroup[0], Drupal.behaviors.OlMap.overGroup[1]);
 
 
           /**
