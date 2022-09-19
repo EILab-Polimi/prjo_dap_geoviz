@@ -156,6 +156,34 @@
           );
           baseLayers.push(
             new ol.layer.Tile({
+              title:'Esri - World Topo Map',
+              type: 'base',
+              source: new ol.source.XYZ({
+                attributions:
+                  'Tiles © <a href="https://services.arcgisonline.com/ArcGIS/' +
+                  'rest/services/World_Topo_Map/MapServer">ArcGIS</a>',
+                url:
+                  'https://server.arcgisonline.com/ArcGIS/rest/services/' +
+                  'World_Topo_Map/MapServer/tile/{z}/{y}/{x}',
+              }),
+            }),
+          );
+          baseLayers.push(
+            new ol.layer.Tile({
+              title:'Esri - World Imagery',
+              type: 'base',
+              source: new ol.source.XYZ({
+                attributions:
+                  'Tiles &copy; <a href="https://services.arcgisonline.com/ArcGIS/' +
+                  'rest/services/World_Imagery/MapServer">ArcGIS</a>',
+                url:
+                  'https://server.arcgisonline.com/ArcGIS/rest/services/' +
+                  'World_Imagery/MapServer/tile/{z}/{y}/{x}',
+              }),
+            }),
+          );
+          baseLayers.push(
+            new ol.layer.Tile({
               title: 'Stamen',
               type: 'base',
               source: new ol.source.Stamen({
