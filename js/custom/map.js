@@ -297,7 +297,9 @@
                                   var infirst = '';
                                 }
 
-                                var featureId = "feature-"+$(this).attr('id').replace(/[ "'()]/g,"_");
+                                console.log($(this).attr('id'));
+
+                                var featureId = "feature-"+$(this).attr('id').replace(/[ "'()@]/g,"_");
                                 // var featureId = "feature-"+$(this).attr('id').replace(/[^a-zA-Z0-9 ]/g,"_");
 
                                 table += '<div class="card">'+
