@@ -260,6 +260,7 @@
                         fetch(url)
                           .then(function (response) {
                             // console.log(response);
+                            // Layer name
                             return response.text();
                           })
                           .then(function (xml) {
@@ -268,10 +269,13 @@
                             // xmlDoc = parser.parseFromString(xml, "text/xml");
                             var xmlDoc = $.parseXML( xml );
                             var xml = $( xmlDoc );
+                            console.log(xml);
                             var layer = xml.find( "Layer" );
+                            console.log(layer);
                             var feature = xml.find( "Feature" );
+                            console.log(feature);
 
-                            // console.log(layer);
+
                             console.log(feature.length);
                             if(feature.length > 0){
                               // console.log(wmsSource.ol_uid);
@@ -293,7 +297,8 @@
                                   var infirst = '';
                                 }
 
-                                var featureId = "feature-"+$(this).attr('id');
+                                var featureId = "feature-"+$(this).attr('id').replace(/[ "'()]/g,"_");
+                                // var featureId = "feature-"+$(this).attr('id').replace(/[^a-zA-Z0-9 ]/g,"_");
 
                                 table += '<div class="card">'+
                                             '<div class="card-header">'+
@@ -304,8 +309,8 @@
                                             '<div id="'+featureId+'" class="panel-collapse collapse '+infirst+'" style="max-height: 40vh; overflow: auto;">'+
                                 '<table class="table table-striped">';
                                 $(this).find("Attribute").each(function () {
-                                  // console.log($(this).attr('name'));
-                                  // console.log($(this).attr('value'));
+                                  console.log($(this).attr('name'));
+                                  console.log($(this).attr('value'));
                                   if($(this).attr('name').toLowerCase() == 'foto'){
                                     table += '<tr><td><b>'+$(this).attr('name')+'</b></td><td><img class="img-responsive open-img" src="'+$(this).attr('value')+'"/></td></tr>';
                                   } else if ($(this).attr('name').toLowerCase() == 'link'){
@@ -334,8 +339,10 @@
                             }
 
                             var content = '<h5>Selected layers:</h5>';
+                                content += '<div class="nav nav-tabs flex-column" role="tablist">';
                                 content += li;
-                                content += '<hr/>'
+                                content += '</div>';
+                                // content += '<hr/>'
                                 content += '<h5>Informations:</h5><div class="tab-content ">';
                                 content += tabPane;
                                 content += '</div>';
