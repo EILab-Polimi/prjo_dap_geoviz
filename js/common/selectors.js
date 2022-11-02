@@ -37,7 +37,7 @@
         function parseJson (data, textStatus, jqXHR) {
           // console.log(data);
           // console.log(JSON.parse(data));
-          var portfolios = JSON.parse(data);
+          var portfolios = JSON.parse(data['data']);
           var out = '';
           $.each(portfolios.id, function( index, value ) {
             console.log(portfolios.label[index]);
@@ -145,8 +145,8 @@
           type: 'GET',
           url: Drupal.behaviors.Common.FastApiUrl+'/scenarios',
           success: function(data, textStatus, jqXHR){
-            console.log(JSON.parse(data));
-            var scenarios = JSON.parse(data)
+            console.log(JSON.parse(data['data']));
+            var scenarios = JSON.parse(data['data'])
             var out = '';
             $.each(scenarios.id, function( index, value ) {
               if (scenarios.label[index] == Drupal.behaviors.Common.Selectors.SCEN) {
