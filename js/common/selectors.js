@@ -13,7 +13,9 @@
       console.log(settings);
       // console.log(Drupal.behaviors.Common);
 
-      Drupal.behaviors.Common.FastApiUrl = settings.geoviz.fastapi_url
+      // Drupal.behaviors.Common.FastApiUrl = settings.geoviz.fastapi_url
+      Drupal.behaviors.Common.FastApiUrl = settings.path.baseUrl+'api/fastapi'
+
 
       Drupal.behaviors.Common.Selectors = {}
       Drupal.behaviors.Common.Selectors.WPP = Drupal.behaviors.Common.Selectors.WPP || 0
