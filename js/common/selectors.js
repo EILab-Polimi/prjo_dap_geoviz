@@ -9,6 +9,8 @@
   Drupal.behaviors.Common = {
     attach: function (context, settings) {
 
+      console.log(context);
+      console.log(settings);
       // console.log(Drupal.behaviors.Common);
 
       Drupal.behaviors.Common.FastApiUrl = settings.geoviz.fastapi_url
@@ -36,6 +38,10 @@
           var portfolios = JSON.parse(data);
           var out = '';
           $.each(portfolios.id, function( index, value ) {
+            console.log(portfolios.label[index]);
+            console.log(Drupal.behaviors.Common.Selectors.WPP);
+            // TODO use id[index] to set selected
+            // if (portfolios.id[index] == Drupal.behaviors.Common.Selectors.WPP) {
             if (portfolios.label[index] == Drupal.behaviors.Common.Selectors.WPP) {
               out += '<option selected value="'+portfolios.id[index]+'">'+portfolios.label[index]+'</option>'
             } else {
@@ -43,6 +49,90 @@
             }
           });
           $('#wpp').append(out);
+
+          // Fill cards if we are on outline page
+          if(settings.path.currentPath == 'dap_out_infograph') {
+
+            /**
+            // fill the explanation Cards
+            **/
+            $.each(portfolios.descr_plan[Drupal.behaviors.Common.Selectors.WPP].cards, function( index, card ){
+
+              var cards = '';
+              var graph = '';
+              var map = '';
+
+              cards += '<div class="col d-flex align-items-stretch">'+
+                       '<div class="card mb-3 shadow" style="min-width: -webkit-fill-available;">'+
+                         '<div class="card-body px-4">'+
+                         '<div class="d-flex justify-content-start align-items-center mb-2">'+
+                                   '<div class="me-2">'+
+                                   '<span class="fa-stack fa-2x">'+
+                                     '<i class="fa-solid fa-circle fa-stack-2x"></i>'+
+                                     '<i class="'+ card.icon +' fa-stack-1x fa-inverse"></i>'+
+                                   '</span>'+
+                                   '</div>'+
+                                   '<div>'+
+                                   '<h5 class="card-title">'+ card.title +'</h5>'+
+                                   '</div>'+
+                           '</div>'+
+                                 '<div class="card-text">'+
+                                    card.body +
+                                 '</div>'+
+                                 '<div class="card-text">'+
+                                    '<a href="#rowcard_'+index+'" class="stretched-link">More</a>' +
+                                 '</div>'+
+                         '</div>'+
+                       '</div>'+
+                     '</div>';
+
+                if ( card.hasOwnProperty('chart_api') && card.hasOwnProperty('item_type') ) {
+                  graph += '<div id="rowcard_'+index+'" class="row mt-3" style="scroll-margin-top: 100px;">'+
+                              '<p ></p>'+
+                              '<div class="col">'+
+                                '<div class="card">'+
+                                  '<div class="card-header">'+
+                                  '</div>'+
+                                  '<div class="card-body">'+
+                                    '<div id="outl_g'+index+'" data-plot_id="'+card.item_type+'" data-plot_type="'+card.chart_api+'" data-scen="opt" data-exp="nonserve" data-loc="opt" class="dap_plot"></div>'+
+                                  '</div>'+
+                                '</div>'+
+                              '</div>'+
+                            '</div>';
+                } else if (card.hasOwnProperty('map')){
+                  // Insert map instead of graph
+
+                  // Chiamiamo una funzione che passa il nome del progetto qgis
+                  //
+
+                  // Drupal.behaviors.OLCommon.SetUp('outl_m'+index, card.map)
+
+                  map += '<div id="rowcard_'+index+'" class="row mt-3" style="scroll-margin-top: 100px;">'+
+                              '<div class="col">'+
+                                '<div class="card">'+
+                                  '<div class="card-header">'+
+                                  card.title +
+                                  '</div>'+
+                                  '<div class="card-body">'+
+                                    '<div id="outl_m'+index+'" data-qgis_map="'+card.map+'" data-scen="opt" data-exp="nonserve" data-loc="opt" class="dap_map" style="height:400px;"></div>'+
+                                  '</div>'+
+                                '</div>'+
+                              '</div>'+
+                            '</div>';
+
+
+                }
+
+                // Fill cards with explanations
+                $('#expl_cards').append(cards);
+                // fill map
+                $('#outline_charts').append(map);
+                // fill charts
+                $('#outline_charts').append(graph);
+
+            });
+            Drupal.behaviors.OutlineInfograph.FillChMa(data, textStatus, jqXHR);
+          }
         }
       }
 
@@ -80,11 +170,13 @@
         Drupal.behaviors.Common.getScenarios();
 
         $( "#scen" ).change(function() {
-          Drupal.behaviors.Common.Selectors.SCEN = this.value
-          // Reset Drupal.behaviors.OlMap.ApplyFilter to False
-          Drupal.behaviors.OlMap.ApplyFilter = false;
-          // Call the function to filter the layers
-          Drupal.behaviors.OlMap.filterLayers(Drupal.behaviors.OlMap.Map);
+          if(settings.path.currentPath == 'geoviz_test_dashboard') {
+            Drupal.behaviors.Common.Selectors.SCEN = this.value
+            // Reset Drupal.behaviors.OlMap.ApplyFilter to False
+            Drupal.behaviors.OlMap.ApplyFilter = false;
+            // Call the function to filter the layers
+            Drupal.behaviors.OlMap.filterLayers(Drupal.behaviors.OlMap.Map);
+          }
         })
 
       });
@@ -100,11 +192,15 @@
         Drupal.behaviors.Common.getPortfolios()
 
         $( "#wpp" ).change(function() {
-          Drupal.behaviors.Common.Selectors.WPP = this.value
-          // Reset Drupal.behaviors.OlMap.ApplyFilter to False
-          Drupal.behaviors.OlMap.ApplyFilter = false;
-          // Call the function to filter the layers
-          Drupal.behaviors.OlMap.filterLayers(Drupal.behaviors.OlMap.Map);
+          if(settings.path.currentPath == 'geoviz_test_dashboard') {
+            Drupal.behaviors.Common.Selectors.WPP = this.value
+            // Reset Drupal.behaviors.OlMap.ApplyFilter to False
+            Drupal.behaviors.OlMap.ApplyFilter = false;
+            // Call the function to filter the layers
+            Drupal.behaviors.OlMap.filterLayers(Drupal.behaviors.OlMap.Map);
+          } else if (settings.path.currentPath == 'dap_out_infograph') {
+            // Fill graph and charts
+          }
         })
 
       });
