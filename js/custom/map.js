@@ -25,13 +25,14 @@
       //                 : 0 == vengono costruite source ol.layer.Tile
       var layerStrategy = 1;
 
-      var legend = 1;
+      var legend = 0;
 
 
       // TODO guarda linea 9 openlayers.drupal.js
       $('#map', context).once().each(function() {
 
-        var qgsUrl = settings.geoviz.qgis_url;
+        // var qgsUrl = settings.geoviz.qgis_url;
+        var qgsUrl = settings.path.baseUrl+'api/QgisServer';
         var qgsMap = settings.geoviz.qgis_map;
 
         // var mapCenter = [952345.995,5770164.701];
@@ -211,10 +212,23 @@
           / Layer switcher component - ilpise fork
           **/
           var toc = document.getElementById("layers");
+
           ol.control.LayerSwitcher.renderPanel(Drupal.behaviors.OlMap.Map,
-            toc, {groupSelectStyle: 'children',
+            toc, {reverse: true,
+                  groupSelectStyle: 'children',
                   legendInLine: legend,
                   layerStrategy: layerStrategy });
+
+          /**
+          / Default implementation for LayerSwitcher
+          **/
+          // var layerSwitcher = new ol.control.LayerSwitcher({
+          //         tipLabel: 'Legenda', // Optional label for button
+          //         // groupSelectStyle: 'group' // Can be 'children' [default], 'group' or 'none'
+          //         groupSelectStyle: 'children',
+          // });
+          // Drupal.behaviors.OlMap.Map.addControl(layerSwitcher);
+
 
           $('#layers > ul > li.layer-switcher-fold > button').trigger('click')	;
 
