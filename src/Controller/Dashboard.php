@@ -39,22 +39,22 @@ class Dashboard extends ControllerBase {
   public function dashboard() {
 
     // Get the configured url for fastAPI
-    $config = \Drupal::config('dap.settings');
-
-    if ($config->get('fastapi_sel') == 0){
-      $fastAPIurl = $config->get('fastapi_dev_url');
-    } else {
-      $fastAPIurl = $config->get('fastapi_prod_url');
-    }
+    // $config = \Drupal::config('dap.settings');
+    //
+    // if ($config->get('fastapi_sel') == 0){
+    //   $fastAPIurl = $config->get('fastapi_dev_url');
+    // } else {
+    //   $fastAPIurl = $config->get('fastapi_prod_url');
+    // }
 
     // Get the configured url for Qgis server
     $config = \Drupal::config('geoviz.settings');
 
-    if ($config->get('qgis_server_sel') == 0){
-      $QgisUrl = $config->get('qgis_server_dev_url');
-    } else {
-      $QgisUrl = $config->get('qgis_server_prod_url');
-    }
+    // if ($config->get('qgis_server_sel') == 0){
+    //   $QgisUrl = $config->get('qgis_server_dev_url');
+    // } else {
+    //   $QgisUrl = $config->get('qgis_server_prod_url');
+    // }
 
     $QgisMap = $config->get('qgis_server_map');
 
@@ -76,14 +76,15 @@ class Dashboard extends ControllerBase {
           // 'geoviz/geoviz.customcontrol.LayerSwitcher',
           // 'openalyers/openlayers',
           'geoviz/ol-layerswitcher',
+          // 'prjo_dap/ol-layerswitcher',
           'geoviz/ol-geocoder',
           'geoviz/dashboard'
         ],
         'drupalSettings' => [
           'geoviz' => [
-              'qgis_url' => $QgisUrl,
+              'qgis_url' => 'notused',
               'qgis_map' => $QgisMap,
-              'fastapi_url' => $fastAPIurl,
+              'fastapi_url' => 'notused',
           ]
         ]
 
