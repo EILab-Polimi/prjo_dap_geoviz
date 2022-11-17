@@ -11,8 +11,9 @@
 
       // Drupal.behaviors.OlMap.Map = Drupal.behaviors.OlMap.Map || {};
 
-
+      // attach behavior to the search box item
       $('#gvz_search', context).once().each(function() {
+        console.log("Behavior attached");
         var _myStroke = new ol.style.Stroke({
         					   color : 'blue',
         					   width : 3
@@ -72,32 +73,58 @@
   		       */
   		      handleResponse: function(results) {
   		        // The API returns a GeoJSON FeatureCollection
-  						console.log('handleResponse layer_switcher.js');
-  						console.log(results);
+  						// console.log('handleResponse layer_switcher.js');
+  						// console.log(results);
 
-  							if (!results.length) return 'empty';
-  							return results.map(result => ({
-  								lon: result.lon,
-  								lat: result.lat,
-  								// polygonpoints: result.polygonpoints,
-  								address: {
-  									name: result.display_name,
-  									// geojson: result.geojson,
-  									// road: result.address.road || '',
-  									// houseNumber: result.address.house_number || '',
-  									// postcode: result.address.postcode,
-  									// city: result.address.city || result.address.town,
-  									// state: result.address.state,
-  									// country: result.address.country,
-  								},
-  								geojson: result.geojson,
-  								// original: {
-  								// 	formatted: result.display_name,
-  								// 	details: result.address,
-  								// },
-  								bbox: result.bbox,
-  							}));
-  						}
+              // console.log(JSON.parse(results['data']));
+              var ret = JSON.parse(results['data'])
+              // console.log(typeof(ret));
+
+              // if($.isEmptyObject(ret)) console.log('empty');
+              // if($.isEmptyObject(ret)) return 'empty';
+              // if (!results.length) return 'empty';
+
+              // Object.fromEntries(Object.entries(ret).map(([k, v]) => [k, v * v]))
+
+              var arr = []
+              $.each( ret.id, function( key, value ) {
+                // console.log( key  );
+                // console.log( value );
+                var obj = {
+                  lon: ret.lon[key],
+                  lat: ret.lat[key],
+                  address: {
+                    name: ret.descr[key]
+                  },
+                  geojson: ret.st_asgeojson[key]
+                }
+                arr.push(obj)
+              });
+
+              // console.log(arr);
+              return (arr)
+							// return ret.map(ret => ({
+							// 	lon: ret.lon,
+							// 	lat: ret.lat,
+							// 	// polygonpoints: result.polygonpoints,
+							// 	address: {
+							// 		name: ret.display_name,
+							// 		// geojson: result.geojson,
+							// 		// road: result.address.road || '',
+							// 		// houseNumber: result.address.house_number || '',
+							// 		// postcode: result.address.postcode,
+							// 		// city: result.address.city || result.address.town,
+							// 		// state: result.address.state,
+							// 		// country: result.address.country,
+							// 	},
+							// 	geojson: ret.geojson,
+							// 	// original: {
+							// 	// 	formatted: result.display_name,
+							// 	// 	details: result.address,
+							// 	// },
+							// 	bbox: ret.bbox,
+							// }));
+  					}
   		    };
   		  }
 
@@ -107,7 +134,8 @@
     				*/
     				var provider = geoVizPostgres({
         			// url: '//t0.ads.astuntechnology.com/open/search/osopennames/',
-    					url: '/nominatim/geoviz',
+    					// url: '/nominatim/geoviz', // drupal url to get reponse from controller old implementation with database change inside the controller
+              url: settings.path.baseUrl+'api/fastapi/geocoder',
     					params: {
     						search: '',
     						format: 'json',
@@ -120,10 +148,13 @@
     					},
       			});
 
-    				// var geocoder = new Geocoder('nominatim', {
+            /**
+            // The Geocoder instance
+            // here we can set the provider to use
+    				*/
             Drupal.behaviors.OlGevizGeocoder.geocoder = new Geocoder('nominatim', {
-    				  provider: 'osm',
-    					// provider: provider,
+    				  // provider: 'osm',
+    					provider: provider,
     					origin: 'geoviz',
     				  // key: '__some_key__',
     				  lang: 'pt-BR', //en-US, fr-FR
@@ -138,83 +169,29 @@
     					type: 'normal'
     				});
 
-    				/**
-    				// custom provider nominatim EXTENDED
-    				*/
-    				// var provider_extended = geoVizPostgres({
-        		// 	// url: '//t0.ads.astuntechnology.com/open/search/osopennames/',
-    				// 	url: '?q=nominatim_extended/geoviz',
-    				// 	params: {
-    				// 		search: '',
-    				// 		format: 'json',
-    				// 		addressdetails: 1,
-    				// 		limit: 10,
-    				// 		countrycodes: '',
-    				// 		'accept-language': 'en-US',
-    				// 		polygon: 1,
-    				// 		polygon_geojson: 1,
-    				// 	},
-      			// });
-
-    				// var geocoder_extended = new Geocoder('extended', {
-    				//   // provider: 'osm',
-    				// 	provider: provider_extended,
-    				// 	origin: 'geoviz',
-    				//   // key: '__some_key__',
-    				//   lang: 'pt-BR', //en-US, fr-FR
-    				//   placeholder: 'Cerca foglio:numero mappale',
-    				//   targetType: 'text-input',
-    				//   limit: 5,
-    				//   keepOpen: true,
-    				// 	debug: true,
-    				// 	polygonStyle: myStyle,
-    				// 	// featureStyle: myStyle,
-    				// 	target: document.querySelector('#gvz_search_extended'),
-    				// 	type: 'extended'
-    				// });
-
-
             //Listen when an address is chosen
-              Drupal.behaviors.OlGevizGeocoder.geocoder.on('addresschosen', function(evt) {
-                console.log(evt);
-                var tpoint = evt.feature;
-                console.log(tpoint.getGeometry());
-                // tpf.setStyle(myStyle);
-                // if()
-                content.innerHTML = '<p>'+evt.address.formatted+'</p>';
-                console.log(evt.coordinate);
-                overlay.setPosition(evt.coordinate);
+            Drupal.behaviors.OlGevizGeocoder.geocoder.on('addresschosen', function(evt) {
+              console.log(evt);
+              var tpoint = evt.feature;
+              console.log(tpoint.getGeometry());
+              // tpf.setStyle(myStyle);
+              // if()
+              // content.innerHTML = '<p>'+evt.address.formatted+'</p>';
+              console.log(evt.coordinate);
+              overlay.setPosition(evt.coordinate);
 
-                Drupal.behaviors.OlMap.Map.on('click', function(event) {
-                        var pixel = event.pixel;
-                        displayFeatureInfo(pixel, evt.coordinate);
-                        // overlay.setPosition(evt.coordinate);
-                });
+              Drupal.behaviors.OlMap.Map.on('click', function(event) {
+                      var pixel = event.pixel;
+                      displayFeatureInfo(pixel, evt.coordinate);
+                      // overlay.setPosition(evt.coordinate);
               });
-
-              //
-              // geocoder_extended.on('addresschosen', function(evt) {
-              //   console.log(evt);
-              //   var tpoint = evt.feature;
-              //   console.log(tpoint.getGeometry());
-              //   // tpf.setStyle(myStyle);
-              //   // if()
-              //   content.innerHTML = '<p>'+evt.address.formatted+'</p>';
-              //   console.log(evt.coordinate);
-              //   overlay.setPosition(evt.coordinate);
-              //
-              //   Drupal.behaviors.Ol6LayerSwitcher.Map.on('click', function(event) {
-              //           var pixel = event.pixel;
-              //           displayFeatureInfo(pixel, evt.coordinate);
-              //           // overlay.setPosition(evt.coordinate);
-              //   });
-              // });
+            });
 
               // console.log(Drupal.behaviors.OlMap.Map);
               // Drupal.behaviors.OlMap.Map.addControl(geocoder);
     				  // Drupal.behaviors.OlMap.Map.addControl(geocoder_extended);
 
-            });
+      });
 
     }
   };
