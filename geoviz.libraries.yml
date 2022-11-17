@@ -83,12 +83,19 @@ ol-geocoder:
     name: MIT Licence
   js:
     /libraries/ol-geocoder/dist/ol-geocoder.js: {}
+    # /libraries/ol-geocoder-original/dist/ol-geocoder.js: {}
   css:
     theme:
       /libraries/ol-geocoder/dist/ol-geocoder.css: {}
+      # /libraries/ol-geocoder-original/dist/ol-geocoder.css: {}
   # dependencies:
   #   - openlayers/openlayers
 
+
+selectors:
+  version: 1.x
+  js:
+    js/common/selectors.js: {}
 
 dashboard:
   version: 1.x

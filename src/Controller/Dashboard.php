@@ -38,24 +38,8 @@ class Dashboard extends ControllerBase {
    */
   public function dashboard() {
 
-    // Get the configured url for fastAPI
-    // $config = \Drupal::config('dap.settings');
-    //
-    // if ($config->get('fastapi_sel') == 0){
-    //   $fastAPIurl = $config->get('fastapi_dev_url');
-    // } else {
-    //   $fastAPIurl = $config->get('fastapi_prod_url');
-    // }
-
-    // Get the configured url for Qgis server
+    // Get the configured url for Qgis server and get the configured map
     $config = \Drupal::config('geoviz.settings');
-
-    // if ($config->get('qgis_server_sel') == 0){
-    //   $QgisUrl = $config->get('qgis_server_dev_url');
-    // } else {
-    //   $QgisUrl = $config->get('qgis_server_prod_url');
-    // }
-
     $QgisMap = $config->get('qgis_server_map');
 
     // TODO - se cambiamo la mappa nella configuarazione viene comunque visualizzata quella precedente
@@ -67,24 +51,15 @@ class Dashboard extends ControllerBase {
       '#attached' => [
         'library' => [
           'geoviz/openlayers',
-          // 'openlayers/openlayers',
-          // 'openlayers/openlayers-drupal',
-          // TODO wms-capabilites https://www.npmjs.com/package/wms-capabilities
-          // is not necessary - Openlayers implements the same
-          // 'geoviz/wms-capabilities',
-          // 'geoviz/geoviz.customcontrol',
-          // 'geoviz/geoviz.customcontrol.LayerSwitcher',
-          // 'openalyers/openlayers',
           'geoviz/ol-layerswitcher',
-          // 'prjo_dap/ol-layerswitcher',
           'geoviz/ol-geocoder',
           'geoviz/dashboard'
         ],
         'drupalSettings' => [
           'geoviz' => [
-              'qgis_url' => 'notused',
+              // 'qgis_url' => 'notused',
               'qgis_map' => $QgisMap,
-              'fastapi_url' => 'notused',
+              // 'fastapi_url' => 'notused',
           ]
         ]
 

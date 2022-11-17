@@ -24,18 +24,18 @@ geoviz.graph:
     _permission: 'access content'
 
 # callback routes for ol-geocoder
-geoviz.nominatim:
-  path: '/nominatim/geoviz'
-  defaults:
-    _controller: '\Drupal\geoviz\Controller\Geocoder::nominatim'
-    # _title: 'Map'
-  requirements:
-    _permission: 'access content'
-
-geoviz.nominatim_extended:
-  path: '/nominatim/geoviz_extended'
-  defaults:
-    _controller: '\Drupal\geoviz\Controller\Geocoder::nominatim_extended'
-    # _title: 'Map'
-  requirements:
-    _permission: 'access content'
+# geoviz.nominatim:
+#   path: '/nominatim/geoviz'
+#   defaults:
+#     _controller: '\Drupal\geoviz\Controller\Geocoder::nominatim'
+#     # _title: 'Map'
+#   requirements:
+#     _permission: 'access content'
+#
+# geoviz.nominatim_extended:
+#   path: '/nominatim/geoviz_extended'
+#   defaults:
+#     _controller: '\Drupal\geoviz\Controller\Geocoder::nominatim_extended'
+#     # _title: 'Map'
+#   requirements:
+#     _permission: 'access content'
