@@ -31,7 +31,6 @@
       // TODO guarda linea 9 openlayers.drupal.js
       $('#map', context).once().each(function() {
 
-        // var qgsUrl = settings.geoviz.qgis_url;
         var qgsUrl = settings.path.baseUrl+'api/QgisServer';
         var qgsMap = settings.geoviz.qgis_map;
 
