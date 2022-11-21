@@ -259,129 +259,130 @@
                       var url = wmsSource.getFeatureInfoUrl(
                         evt.coordinate, viewResolution, 'EPSG:3857',
                         {
-                          // 'INFO_FORMAT': 'text/html'
+                          // 'INFO_FORMAT': 'text/html',
                           // 'INFO_FORMAT': 'text/plain'
-                          'INFO_FORMAT': 'text/xml',
-                          // 'INFO_FORMAT': 'application/json'
+                          // 'INFO_FORMAT': 'text/xml',
+                          'INFO_FORMAT': 'application/json',
                           'FI_POINT_TOLERANCE': 16,
                           'FI_LINE_TOLERANCE': 8,
                           'FI_POLYGON_TOLERANCE': 4,
                           'FEATURE_COUNT': Drupal.behaviors.OlMap.FEATURE_COUNT
                         });
                       if (url) {
-                        // console.log(url);
-                        fetch(url)
-                          .then(function (response) {
-                            // console.log(response);
-                            // Layer name
-                            return response.text();
-                          })
-                          .then(function (xml) {
-                            // console.log(xml);
-                            parser = new DOMParser();
-                            // xmlDoc = parser.parseFromString(xml, "text/xml");
-                            var xmlDoc = $.parseXML( xml );
-                            var xml = $( xmlDoc );
-                            console.log(xml);
-                            var layer = xml.find( "Layer" );
-                            console.log(layer);
-                            var feature = xml.find( "Feature" );
-                            console.log(feature);
-
-
-                            console.log(feature.length);
-                            if(feature.length > 0){
-                              // console.log(wmsSource.ol_uid);
-                              var title = xml.find( "Layer" ).attr('name');
-                              var machineName = title.replace(/\s/g, '');
-                              // var html;
-                              // console.log(title);
-                              // console.log('FEATURE');
-                              // console.log(feature);
-
-                              // var panel_group = '<div class="panel-group">';
-                              var table = '';
-                              // var accord = '';
-                              xml.find("Feature").each(function (key) {
-
-                                if (key == 0) {
-                                  var infirst = 'in';
-                                } else {
-                                  var infirst = '';
-                                }
-
-                                console.log($(this).attr('id'));
-
-                                var featureId = "feature-"+$(this).attr('id').replace(/[ "'()@]/g,"_");
-                                // var featureId = "feature-"+$(this).attr('id').replace(/[^a-zA-Z0-9 ]/g,"_");
-
-                                table += '<div class="card">'+
-                                            '<div class="card-header">'+
-                                              '<h6 class="panel-title">'+
-                                                '<a data-bs-toggle="collapse" data-bs-parent="#infocontent-'+machineName+'" href="#'+featureId+'">'+featureId+'</a>'+
-                                              '</h6>'+
-                                            '</div>'+
-                                            '<div id="'+featureId+'" class="panel-collapse collapse '+infirst+'" style="max-height: 40vh; overflow: auto;">'+
-                                '<table class="table table-striped">';
-                                $(this).find("Attribute").each(function () {
-                                  console.log($(this).attr('name'));
-                                  console.log($(this).attr('value'));
-                                  if($(this).attr('name').toLowerCase() == 'foto'){
-                                    table += '<tr><td><b>'+$(this).attr('name')+'</b></td><td><img class="img-responsive open-img" src="'+$(this).attr('value')+'"/></td></tr>';
-                                  } else if ($(this).attr('name').toLowerCase() == 'link'){
-                                    table += '<tr><td><b>'+$(this).attr('name')+'</b></td><td><a href="'+$(this).attr('value')+'">'+$(this).attr('name')+'</a></td></tr>';
-                                  } else {
-                                    table += '<tr><td><b>'+$(this).attr('name')+'</b></td><td>'+$(this).attr('value')+'</td></tr>';
-                                  }
-                                });
-                                table += '</table></div></div>';
-
-                              });
-
-                              // var panel_group = '<div class="panel-group">'+table+'</div>';
-                                li += '<div class="form-check">'+
-                                        '<input data-bs-toggle="tab" data-bs-target="#infotab-'+machineName+'" class="form-check-input" type="radio" role="tab" name="radiolayer">'+
-                                        '<label class="form-check-label">'+ title +'</label>'+
-                                        '</div>';
-
-                                tabPane += '<div class="tab-pane" id="infotab-'+machineName+'">'+
-                                                // '<p>'+title+'</p>'+
-                                                '<div class="panel-group" id="infocontent-'+machineName+'">'+table+'</div>'+
-                                                // '<div id="infocontent-'+title+'">'+panel_group+'</div>'+
-                                            '</div>';
-
-
-                            }
-
-                            var content = '<h5>Selected layers:</h5>';
-                                content += '<div class="nav nav-tabs flex-column" role="tablist">';
-                                content += li;
-                                content += '</div>';
-                                // content += '<hr/>'
-                                content += '<h5>Informations:</h5><div class="tab-content ">';
-                                content += tabPane;
-                                content += '</div>';
-
-                            // Reset info element
-                            document.getElementById('info-wrap').innerHTML = '';
-
-                            document.getElementById('info-wrap').innerHTML = content;
-
-                            $('input[name="radiolayer"]').click(function () {
-                                //jQuery handles UI toggling correctly when we apply "data-target" attributes and call .tab('show')
-                                //on the <li> elements' immediate children, e.g the <label> elements:
-                                console.log('radio clicked');
-
-                                console.log($(this).attr("data-bs-target"));
-                                var target = $(this).attr("data-bs-target");
-
-                                // $(target).toggle();
-                                $(target).show();
-                            });
-
-                            $('#info-wrap > div > input').first().trigger('click');
-
-                          });
+                        Drupal.behaviors.OlMap.WMSGetFeatureInfo(url);
+                        // // console.log(url);
+                        // fetch(url)
+                        //   .then(function (response) {
+                        //     // console.log(response);
+                        //     // Layer name
+                        //     return response.text();
+                        //   })
+                        //   .then(function (xml) {
+                        //     // console.log(xml);
+                        //     parser = new DOMParser();
+                        //     // xmlDoc = parser.parseFromString(xml, "text/xml");
+                        //     var xmlDoc = $.parseXML( xml );
+                        //     var xml = $( xmlDoc );
+                        //     console.log(xml);
+                        //     var layer = xml.find( "Layer" );
+                        //     console.log(layer);
+                        //     var feature = xml.find( "Feature" );
+                        //     console.log(feature);
+                        //
+                        //
+                        //     console.log(feature.length);
+                        //     if(feature.length > 0){
+                        //       // console.log(wmsSource.ol_uid);
+                        //       var title = xml.find( "Layer" ).attr('name');
+                        //       var machineName = title.replace(/\s/g, '');
+                        //       // var html;
+                        //       // console.log(title);
+                        //       // console.log('FEATURE');
+                        //       // console.log(feature);
+                        //
+                        //       // var panel_group = '<div class="panel-group">';
+                        //       var table = '';
+                        //       // var accord = '';
+                        //       xml.find("Feature").each(function (key) {
+                        //
+                        //         if (key == 0) {
+                        //           var infirst = 'in';
+                        //         } else {
+                        //           var infirst = '';
+                        //         }
+                        //
+                        //         console.log($(this).attr('id'));
+                        //
+                        //         var featureId = "feature-"+$(this).attr('id').replace(/[ "'()@]/g,"_");
+                        //         // var featureId = "feature-"+$(this).attr('id').replace(/[^a-zA-Z0-9 ]/g,"_");
+                        //
+                        //         table += '<div class="card">'+
+                        //                     '<div class="card-header">'+
+                        //                       '<h6 class="panel-title">'+
+                        //                         '<a data-bs-toggle="collapse" data-bs-parent="#infocontent-'+machineName+'" href="#'+featureId+'">'+featureId+'</a>'+
+                        //                       '</h6>'+
+                        //                     '</div>'+
+                        //                     '<div id="'+featureId+'" class="panel-collapse collapse '+infirst+'" style="max-height: 40vh; overflow: auto;">'+
+                        //         '<table class="table table-striped">';
+                        //         $(this).find("Attribute").each(function () {
+                        //           console.log($(this).attr('name'));
+                        //           console.log($(this).attr('value'));
+                        //           if($(this).attr('name').toLowerCase() == 'foto'){
+                        //             table += '<tr><td><b>'+$(this).attr('name')+'</b></td><td><img class="img-responsive open-img" src="'+$(this).attr('value')+'"/></td></tr>';
+                        //           } else if ($(this).attr('name').toLowerCase() == 'link'){
+                        //             table += '<tr><td><b>'+$(this).attr('name')+'</b></td><td><a href="'+$(this).attr('value')+'">'+$(this).attr('name')+'</a></td></tr>';
+                        //           } else {
+                        //             table += '<tr><td><b>'+$(this).attr('name')+'</b></td><td>'+$(this).attr('value')+'</td></tr>';
+                        //           }
+                        //         });
+                        //         table += '</table></div></div>';
+                        //
+                        //       });
+                        //
+                        //       // var panel_group = '<div class="panel-group">'+table+'</div>';
+                        //         li += '<div class="form-check">'+
+                        //                 '<input data-bs-toggle="tab" data-bs-target="#infotab-'+machineName+'" class="form-check-input" type="radio" role="tab" name="radiolayer">'+
+                        //                 '<label class="form-check-label">'+ title +'</label>'+
+                        //                 '</div>';
+                        //
+                        //         tabPane += '<div class="tab-pane" id="infotab-'+machineName+'">'+
+                        //                         // '<p>'+title+'</p>'+
+                        //                         '<div class="panel-group" id="infocontent-'+machineName+'">'+table+'</div>'+
+                        //                         // '<div id="infocontent-'+title+'">'+panel_group+'</div>'+
+                        //                     '</div>';
+                        //
+                        //
+                        //     }
+                        //
+                        //     var content = '<h5>Selected layers:</h5>';
+                        //         content += '<div class="nav nav-tabs flex-column" role="tablist">';
+                        //         content += li;
+                        //         content += '</div>';
+                        //         // content += '<hr/>'
+                        //         content += '<h5>Informations:</h5><div class="tab-content ">';
+                        //         content += tabPane;
+                        //         content += '</div>';
+                        //
+                        //     // Reset info element
+                        //     document.getElementById('info-wrap').innerHTML = '';
+                        //
+                        //     document.getElementById('info-wrap').innerHTML = content;
+                        //
+                        //     $('input[name="radiolayer"]').click(function () {
+                        //         //jQuery handles UI toggling correctly when we apply "data-target" attributes and call .tab('show')
+                        //         //on the <li> elements' immediate children, e.g the <label> elements:
+                        //         console.log('radio clicked');
+                        //
+                        //         console.log($(this).attr("data-bs-target"));
+                        //         var target = $(this).attr("data-bs-target");
+                        //
+                        //         // $(target).toggle();
+                        //         $(target).show();
+                        //     });
+                        //
+                        //     $('#info-wrap > div > input').first().trigger('click');
+                        //
+                        //   });
                       }
                   }
               });
@@ -438,6 +439,117 @@
 
       });
 
+      /**
+      / New implementation of GetFeatureInfo given application/json
+      */
+      Drupal.behaviors.OlMap.WMSGetFeatureInfo = function (url){
+        console.log(url);
+        fetch(url)
+        .then((response) => response.text())
+        .then((json) => {
+          // document.getElementById('info').innerHTML = html;
+          console.log('--------------------------------------');
+          console.log(JSON.parse(json));
+          var t = JSON.parse(json);
+          // console.log(t.features.length);
+          if(t.features.length > 0){
+            // The layer name is embedded in the id like layername.featurelabel
+            var idarr = t.features[0].id.split(".");
+            var layerName = idarr[0];
+            // Create a machine name substituting special char with underscore
+            // TODO - use a function
+            var machineLayerName = layerName.replace(/[\s\"\'\(\)\@\#\[\]\?\!\:\;\,\<\>\\\/]/g,'_');
+            console.log(layerName);
+
+            // Create the card with
+            // init empty table object
+            var table = document.createElement('table');
+            $.each(t.features, function (key, val) {
+
+              if (key == 0) {
+                var infirst = 'in';
+              } else {
+                var infirst = '';
+              }
+
+              console.log(val.id);
+              console.log(val.properties);
+
+              var featureId = val.id.replace(/[\s\"\'\(\)\@\#\[\]\?\!\:\;\,\<\>\\\/]/g,'_');
+          //     var featureId = "feature-"+$(this).attr('id').replace(/[ "'()@]/g,"_");
+          //     // var featureId = "feature-"+$(this).attr('id').replace(/[^a-zA-Z0-9 ]/g,"_");
+
+          //     table += '<div class="card">'+
+          //                 '<div class="card-header">'+
+          //                   '<h6 class="panel-title">'+
+          //                     '<a data-bs-toggle="collapse" data-bs-parent="#infocontent-'+machineName+'" href="#'+featureId+'">'+featureId+'</a>'+
+          //                   '</h6>'+
+          //                 '</div>'+
+          //                 '<div id="'+featureId+'" class="panel-collapse collapse '+infirst+'" style="max-height: 40vh; overflow: auto;">'+
+          //     '<table class="table table-striped">';
+          //     $(this).find("Attribute").each(function () {
+          //       console.log($(this).attr('name'));
+          //       console.log($(this).attr('value'));
+          //       if($(this).attr('name').toLowerCase() == 'foto'){
+          //         table += '<tr><td><b>'+$(this).attr('name')+'</b></td><td><img class="img-responsive open-img" src="'+$(this).attr('value')+'"/></td></tr>';
+          //       } else if ($(this).attr('name').toLowerCase() == 'link'){
+          //         table += '<tr><td><b>'+$(this).attr('name')+'</b></td><td><a href="'+$(this).attr('value')+'">'+$(this).attr('name')+'</a></td></tr>';
+          //       } else {
+          //         table += '<tr><td><b>'+$(this).attr('name')+'</b></td><td>'+$(this).attr('value')+'</td></tr>';
+          //       }
+          //     });
+          //     table += '</table></div></div>';
+          //
+          //   });
+          //
+          //   // var panel_group = '<div class="panel-group">'+table+'</div>';
+          //     li += '<div class="form-check">'+
+          //             '<input data-bs-toggle="tab" data-bs-target="#infotab-'+machineName+'" class="form-check-input" type="radio" role="tab" name="radiolayer">'+
+          //             '<label class="form-check-label">'+ title +'</label>'+
+          //             '</div>';
+          //
+          //     tabPane += '<div class="tab-pane" id="infotab-'+machineName+'">'+
+          //                     // '<p>'+title+'</p>'+
+          //                     '<div class="panel-group" id="infocontent-'+machineName+'">'+table+'</div>'+
+          //                     // '<div id="infocontent-'+title+'">'+panel_group+'</div>'+
+          //                 '</div>';
+          //
+          //
+          // }
+          //
+          // var content = '<h5>Selected layers:</h5>';
+          //     content += '<div class="nav nav-tabs flex-column" role="tablist">';
+          //     content += li;
+          //     content += '</div>';
+          //     // content += '<hr/>'
+          //     content += '<h5>Informations:</h5><div class="tab-content ">';
+          //     content += tabPane;
+          //     content += '</div>';
+          //
+          // // Reset info element
+          // document.getElementById('info-wrap').innerHTML = '';
+          //
+          // document.getElementById('info-wrap').innerHTML = content;
+          //
+          // $('input[name="radiolayer"]').click(function () {
+          //     //jQuery handles UI toggling correctly when we apply "data-target" attributes and call .tab('show')
+          //     //on the <li> elements' immediate children, e.g the <label> elements:
+          //     console.log('radio clicked');
+          //
+          //     console.log($(this).attr("data-bs-target"));
+          //     var target = $(this).attr("data-bs-target");
+          //
+          //     // $(target).toggle();
+          //     $(target).show();
+          // });
+          //
+          // $('#info-wrap > div > input').first().trigger('click');
+
+            });
+          }
+
+        });
+      }
 
       /**
       / Recursive function to cycle on all the nested layers
@@ -460,7 +572,7 @@
             var params = source.getParams();
             // console.log(source);
             // console.log(params);
-            params.FILTER = ''+layer.get('title')+':"exp_id" = '+Drupal.behaviors.Common.Selectors.WPP+' AND "scen_id" = '+Drupal.behaviors.Common.Selectors.SCEN;
+            params.FILTER = ''+layer.get('title')+':"exp_id" = '+Drupal.behaviors.Common.WPP+' AND "scen_id" = '+Drupal.behaviors.Common.SCEN;
             source.updateParams(params);
           }
         });

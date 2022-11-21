@@ -17,9 +17,9 @@
       Drupal.behaviors.Common.FastApiUrl = settings.path.baseUrl+'api/fastapi'
 
 
-      Drupal.behaviors.Common.Selectors = {}
-      Drupal.behaviors.Common.Selectors.WPP = Drupal.behaviors.Common.Selectors.WPP || 0
-      Drupal.behaviors.Common.Selectors.SCEN = Drupal.behaviors.Common.Selectors.SCEN || 0
+      // Drupal.behaviors.Common.Selectors = {}
+      Drupal.behaviors.Common.WPP = Drupal.behaviors.Common.WPP || 0
+      Drupal.behaviors.Common.SCEN = Drupal.behaviors.Common.SCEN || 0
 
       /**
       //  Get portfolios/WPP list to fill the select box and set selected
@@ -40,14 +40,14 @@
           var portfolios = JSON.parse(data['data']);
           var out = '';
           $.each(portfolios.id, function( index, value ) {
-            console.log(portfolios.label[index]);
-            console.log(Drupal.behaviors.Common.Selectors.WPP);
+            console.log(value);
+            console.log(Drupal.behaviors.Common.WPP);
             // TODO use id[index] to set selected
-            // if (portfolios.id[index] == Drupal.behaviors.Common.Selectors.WPP) {
-            if (portfolios.label[index] == Drupal.behaviors.Common.Selectors.WPP) {
-              out += '<option selected value="'+portfolios.id[index]+'">'+portfolios.label[index]+'</option>'
+            // if (portfolios.id[index] == Drupal.behaviors.Common.WPP) {
+            if (value == Drupal.behaviors.Common.WPP) {
+              out += '<option selected value="'+value+'">'+portfolios.label[index]+'</option>'
             } else {
-              out += '<option value="'+portfolios.id[index]+'">'+portfolios.label[index]+'</option>'
+              out += '<option value="'+value+'">'+portfolios.label[index]+'</option>'
             }
           });
           $('#wpp').append(out);
@@ -58,7 +58,7 @@
             /**
             // fill the explanation Cards
             **/
-            $.each(portfolios.descr_plan[Drupal.behaviors.Common.Selectors.WPP].cards, function( index, card ){
+            $.each(portfolios.descr_plan[Drupal.behaviors.Common.WPP].cards, function( index, card ){
 
               var cards = '';
               var graph = '';
@@ -149,10 +149,10 @@
             var scenarios = JSON.parse(data['data'])
             var out = '';
             $.each(scenarios.id, function( index, value ) {
-              if (scenarios.label[index] == Drupal.behaviors.Common.Selectors.SCEN) {
-                out += '<option selected value="'+scenarios.id[index]+'">'+scenarios.label[index]+'</option>'
+              if (scenarios.label[index] == Drupal.behaviors.Common.SCEN) {
+                out += '<option selected value="'+value+'">'+scenarios.label[index]+'</option>'
               } else {
-                out += '<option value="'+scenarios.id[index]+'">'+scenarios.label[index]+'</option>'
+                out += '<option value="'+value+'">'+scenarios.label[index]+'</option>'
               }
             });
             $('#scen').append(out);
@@ -166,14 +166,14 @@
         var urlParams = new URLSearchParams(window.location.search);
         console.log(urlParams.get('scen'));
         if (urlParams.get('scen') !== null) {
-          Drupal.behaviors.Common.Selectors.SCEN = urlParams.get('scen');
+          Drupal.behaviors.Common.SCEN = urlParams.get('scen');
         }
         // get list of scenarios
         Drupal.behaviors.Common.getScenarios();
 
         $( "#scen" ).change(function() {
           if(settings.path.currentPath == 'geoviz_test_dashboard') {
-            Drupal.behaviors.Common.Selectors.SCEN = this.value
+            Drupal.behaviors.Common.SCEN = this.value
             // Reset Drupal.behaviors.OlMap.ApplyFilter to False
             Drupal.behaviors.OlMap.ApplyFilter = false;
             // Call the function to filter the layers
@@ -188,14 +188,15 @@
         var urlParams = new URLSearchParams(window.location.search);
         console.log(urlParams.get('wpp'));
         if (urlParams.get('wpp') !== null) {
-          Drupal.behaviors.Common.Selectors.WPP = urlParams.get('wpp');
+          Drupal.behaviors.Common.WPP = urlParams.get('wpp');
+          console.log(Drupal.behaviors.Common.WPP);
         }
         // get and set Portfolios list in the WPP selectbox
         Drupal.behaviors.Common.getPortfolios()
 
         $( "#wpp" ).change(function() {
           if(settings.path.currentPath == 'geoviz_test_dashboard') {
-            Drupal.behaviors.Common.Selectors.WPP = this.value
+            Drupal.behaviors.Common.WPP = this.value
             // Reset Drupal.behaviors.OlMap.ApplyFilter to False
             Drupal.behaviors.OlMap.ApplyFilter = false;
             // Call the function to filter the layers
