@@ -18,7 +18,7 @@
 
 
       // Drupal.behaviors.Common.Selectors = {}
-      Drupal.behaviors.Common.WPP = Drupal.behaviors.Common.WPP || 0
+      Drupal.behaviors.Common.WPP = Drupal.behaviors.Common.WPP || 1
       Drupal.behaviors.Common.SCEN = Drupal.behaviors.Common.SCEN || 0
 
       /**
